@@ -14,10 +14,12 @@ import com.example.model.DailyChallengeInfo
 import com.example.model.FoodItem
 import com.example.model.PortionOption
 import com.example.scoring.NutritionScoringEngine
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.text.SimpleDateFormat
@@ -33,6 +35,13 @@ class NutritionRepository(private val db: AppDatabase) {
   private val recordDao = db.dailyRecordDao()
   private val achievementDao = db.achievementDao()
   private val settingsDao = db.userSettingsDao()
+
+  init {
+    CoroutineScope(Dispatchers.IO).launch {
+      foodDao.insertFoods(PrepopulatedFoods.list)
+      achievementDao.insertAchievements(DefaultAchievements.list)
+    }
+  }
 
   val allFoodsFlow: Flow<List<FoodItem>> = foodDao.getAllFoods().map { list ->
     list.map { parseFoodEntity(it) }

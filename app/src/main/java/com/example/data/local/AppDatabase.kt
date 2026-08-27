@@ -70,6 +70,15 @@ abstract class AppDatabase : RoomDatabase() {
                 }
               }
             }
+
+            override fun onOpen(db: SupportSQLiteDatabase) {
+              super.onOpen(db)
+              INSTANCE?.let { database ->
+                scope.launch(Dispatchers.IO) {
+                  database.foodDao().insertFoods(PrepopulatedFoods.list)
+                }
+              }
+            }
           })
           .fallbackToDestructiveMigration()
           .build()
