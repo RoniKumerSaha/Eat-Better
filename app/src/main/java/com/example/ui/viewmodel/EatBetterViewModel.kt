@@ -67,6 +67,17 @@ private data class NavigationAndFilterState(
   val savedOnly: Boolean
 )
 
+private data class InteractionState(
+  val selectedFood: FoodItem?,
+  val selectedPortion: PortionOption?,
+  val selectedMealType: String,
+  val selectedLogDate: String,
+  val selectedAchievementForModal: AchievementEntity?,
+  val showShareDialog: Boolean,
+  val showCelebrationDialog: Boolean,
+  val celebrationMessage: String
+)
+
 class EatBetterViewModel(application: Application) : AndroidViewModel(application) {
 
   private val repository: NutritionRepository
@@ -127,11 +138,41 @@ class EatBetterViewModel(application: Application) : AndroidViewModel(applicatio
     )
   }
 
+  private val dialogsStateFlow = combine(
+    _selectedAchievementForModal,
+    _showShareDialog,
+    _showCelebrationDialog,
+    _celebrationMessage
+  ) { ach, share, celeb, msg ->
+    listOf<Any?>(ach, share, celeb, msg)
+  }
+
+  private val interactionStateFlow: Flow<InteractionState> = combine(
+    _selectedFood,
+    _selectedPortion,
+    _selectedMealType,
+    _selectedLogDate,
+    dialogsStateFlow
+  ) { food, portion, mealType, logDate, dialogs ->
+    @Suppress("UNCHECKED_CAST")
+    InteractionState(
+      selectedFood = food,
+      selectedPortion = portion,
+      selectedMealType = mealType,
+      selectedLogDate = logDate,
+      selectedAchievementForModal = dialogs[0] as? AchievementEntity,
+      showShareDialog = dialogs[1] as Boolean,
+      showCelebrationDialog = dialogs[2] as Boolean,
+      celebrationMessage = dialogs[3] as String
+    )
+  }
+
   val uiState: StateFlow<UiState> = combine(
     navigationAndFilterFlow,
     allFoodsFlow,
-    persistenceStateFlow
-  ) { navFilter, foods, persistence ->
+    persistenceStateFlow,
+    interactionStateFlow
+  ) { navFilter, foods, persistence, interaction ->
     val effectiveScreen = if (!persistence.settings.onboardingCompleted && navFilter.screen == "home") {
       "onboarding"
     } else navFilter.screen
@@ -171,17 +212,17 @@ class EatBetterViewModel(application: Application) : AndroidViewModel(applicatio
       allFoods = foodsWithFavs,
       filteredFoods = filtered,
       favorites = persistence.favorites,
-      selectedFood = _selectedFood.value,
-      selectedPortion = _selectedPortion.value,
-      selectedMealType = _selectedMealType.value,
-      selectedLogDate = _selectedLogDate.value,
+      selectedFood = interaction.selectedFood,
+      selectedPortion = interaction.selectedPortion,
+      selectedMealType = interaction.selectedMealType,
+      selectedLogDate = interaction.selectedLogDate,
       achievements = persistence.achievements,
       unlockedAchievements = unlocked,
-      selectedAchievementForModal = _selectedAchievementForModal.value,
+      selectedAchievementForModal = interaction.selectedAchievementForModal,
       userSettings = persistence.settings,
-      showShareDialog = _showShareDialog.value,
-      showCelebrationDialog = _showCelebrationDialog.value,
-      celebrationMessage = _celebrationMessage.value,
+      showShareDialog = interaction.showShareDialog,
+      showCelebrationDialog = interaction.showCelebrationDialog,
+      celebrationMessage = interaction.celebrationMessage,
       weeklyRecords = persistence.records.take(7)
     )
   }.stateIn(

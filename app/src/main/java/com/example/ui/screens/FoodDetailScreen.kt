@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -49,6 +50,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -57,8 +60,14 @@ import androidx.compose.ui.unit.sp
 import com.example.model.FoodItem
 import com.example.model.PortionOption
 import com.example.ui.components.getFoodIcon
-import com.example.ui.theme.PrimaryContainer
-import com.example.ui.theme.SagePrimary
+import com.example.ui.theme.CleanBackground
+import com.example.ui.theme.CleanBorder
+import com.example.ui.theme.CleanOnSurface
+import com.example.ui.theme.CleanOnSurfaceVariant
+import com.example.ui.theme.CleanPillAccent
+import com.example.ui.theme.CleanPrimary
+import com.example.ui.theme.CleanSurface
+import com.example.ui.theme.CleanSurfaceLow
 import com.example.ui.theme.ScoreGentleWarm
 import com.example.ui.theme.ScoreMidOat
 import com.example.ui.viewmodel.EatBetterViewModel
@@ -80,7 +89,7 @@ fun FoodDetailScreen(
   var showScoreExplanation by remember { mutableStateOf(false) }
 
   val scoreColor = when {
-    food.baseScore >= 8 -> SagePrimary
+    food.baseScore >= 8 -> CleanPrimary
     food.baseScore >= 6 -> ScoreMidOat
     else -> ScoreGentleWarm
   }
@@ -89,20 +98,22 @@ fun FoodDetailScreen(
     topBar = {
       TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-          containerColor = MaterialTheme.colorScheme.background
+          containerColor = CleanBackground
         ),
         title = {
           Text(
             text = "Food Details",
             style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = CleanOnSurface
           )
         },
         navigationIcon = {
           IconButton(onClick = onNavigateBack) {
             Icon(
               imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-              contentDescription = "Back"
+              contentDescription = "Back",
+              tint = CleanOnSurface
             )
           }
         },
@@ -114,7 +125,7 @@ fun FoodDetailScreen(
             Icon(
               imageVector = if (food.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
               contentDescription = "Favorite",
-              tint = if (food.isFavorite) SagePrimary else MaterialTheme.colorScheme.onSurfaceVariant
+              tint = if (food.isFavorite) CleanPrimary else CleanOnSurfaceVariant
             )
           }
         }
@@ -122,16 +133,26 @@ fun FoodDetailScreen(
     },
     bottomBar = {
       Surface(
-        color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 8.dp,
-        modifier = Modifier.fillMaxWidth()
+        color = CleanSurface,
+        tonalElevation = 0.dp,
+        modifier = Modifier
+          .fillMaxWidth()
+          .drawBehind {
+            drawLine(
+              color = CleanBorder,
+              start = Offset(0f, 0f),
+              end = Offset(size.width, 0f),
+              strokeWidth = 1.dp.toPx()
+            )
+          }
       ) {
         Column(
           modifier = Modifier
             .fillMaxWidth()
+            .navigationBarsPadding()
             .padding(horizontal = 20.dp, vertical = 14.dp)
         ) {
-          Button(
+            Button(
             onClick = {
               viewModel.logCurrentFoodSelection()
               onNavigateBack()
@@ -141,20 +162,24 @@ fun FoodDetailScreen(
               .height(54.dp)
               .testTag("confirm_log_food_button"),
             shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = SagePrimary)
+            colors = ButtonDefaults.buttonColors(
+              containerColor = CleanPrimary,
+              contentColor = Color.White
+            )
           ) {
-            Icon(Icons.Default.Check, contentDescription = null)
+            Icon(Icons.Default.Check, contentDescription = null, tint = Color.White)
             Spacer(modifier = Modifier.width(8.dp))
             Text(
               text = "Log for ${uiState.selectedMealType} (${selectedPortion.calories} kcal)",
               style = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp),
-              fontWeight = FontWeight.Bold
+              fontWeight = FontWeight.Bold,
+              color = Color.White
             )
           }
         }
       }
     },
-    containerColor = MaterialTheme.colorScheme.background
+    containerColor = CleanBackground
   ) { paddingValues ->
 
     LazyColumn(
@@ -169,9 +194,10 @@ fun FoodDetailScreen(
       item {
         Surface(
           shape = RoundedCornerShape(24.dp),
-          color = MaterialTheme.colorScheme.surfaceContainerLowest,
-          shadowElevation = 2.dp,
-          modifier = Modifier.fillMaxWidth()
+          color = CleanSurface,
+          modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, CleanBorder, RoundedCornerShape(24.dp))
         ) {
           Column(
             modifier = Modifier
@@ -184,13 +210,13 @@ fun FoodDetailScreen(
               modifier = Modifier
                 .size(80.dp)
                 .clip(CircleShape)
-                .background(PrimaryContainer.copy(alpha = 0.4f)),
+                .background(CleanPillAccent),
               contentAlignment = Alignment.Center
             ) {
               Icon(
                 imageVector = getFoodIcon(food.iconSymbol, food.categoryId),
                 contentDescription = food.name,
-                tint = SagePrimary,
+                tint = CleanPrimary,
                 modifier = Modifier.size(44.dp)
               )
             }
@@ -201,14 +227,14 @@ fun FoodDetailScreen(
               text = food.name,
               style = MaterialTheme.typography.headlineSmall,
               fontWeight = FontWeight.Bold,
-              color = MaterialTheme.colorScheme.onSurface
+              color = CleanOnSurface
             )
 
             if (!food.bengaliName.isNullOrBlank()) {
               Text(
                 text = food.bengaliName,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = CleanOnSurfaceVariant
               )
             }
 
@@ -221,7 +247,7 @@ fun FoodDetailScreen(
             ) {
               Surface(
                 shape = CircleShape,
-                color = scoreColor.copy(alpha = 0.15f)
+                color = CleanPillAccent
               ) {
                 Row(
                   modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
@@ -230,7 +256,7 @@ fun FoodDetailScreen(
                   Text(
                     text = "Score: ${food.baseScore}/10",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = scoreColor
+                    color = CleanPrimary
                   )
                 }
               }
@@ -239,8 +265,10 @@ fun FoodDetailScreen(
 
               Surface(
                 shape = CircleShape,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                modifier = Modifier.clickable { showScoreExplanation = !showScoreExplanation }
+                color = CleanSurfaceLow,
+                modifier = Modifier
+                  .clickable { showScoreExplanation = !showScoreExplanation }
+                  .border(1.dp, CleanBorder, CircleShape)
               ) {
                 Row(
                   modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
@@ -249,14 +277,14 @@ fun FoodDetailScreen(
                   Icon(
                     imageVector = Icons.Default.HelpOutline,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint = CleanOnSurfaceVariant,
                     modifier = Modifier.size(16.dp)
                   )
                   Spacer(modifier = Modifier.width(4.dp))
                   Text(
                     text = "Why this score?",
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = CleanOnSurfaceVariant
                   )
                 }
               }
@@ -267,23 +295,24 @@ fun FoodDetailScreen(
               Surface(
                 modifier = Modifier
                   .fillMaxWidth()
-                  .padding(top = 14.dp),
+                  .padding(top = 14.dp)
+                  .border(1.dp, CleanBorder, RoundedCornerShape(16.dp)),
                 shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerLow
+                color = CleanSurfaceLow
               ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                   Text(
                     text = "Score Factors",
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = CleanOnSurface
                   )
                   Spacer(modifier = Modifier.height(6.dp))
                   food.scoreExplanation.forEach { explanation ->
                     Text(
                       text = explanation,
                       style = MaterialTheme.typography.bodySmall,
-                      color = MaterialTheme.colorScheme.onSurfaceVariant,
+                      color = CleanOnSurfaceVariant,
                       lineHeight = 18.sp
                     )
                   }
@@ -298,8 +327,10 @@ fun FoodDetailScreen(
       item {
         Surface(
           shape = RoundedCornerShape(20.dp),
-          color = MaterialTheme.colorScheme.surfaceContainerLow,
-          modifier = Modifier.fillMaxWidth()
+          color = CleanSurface,
+          modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, CleanBorder, RoundedCornerShape(20.dp))
         ) {
           Row(
             modifier = Modifier.padding(16.dp),
@@ -308,14 +339,14 @@ fun FoodDetailScreen(
             Icon(
               imageVector = Icons.Default.Spa,
               contentDescription = null,
-              tint = SagePrimary,
+              tint = CleanPrimary,
               modifier = Modifier.size(22.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
               text = food.educationalText,
               style = MaterialTheme.typography.bodyMedium,
-              color = MaterialTheme.colorScheme.onSurface,
+              color = CleanOnSurface,
               lineHeight = 20.sp
             )
           }
@@ -328,7 +359,7 @@ fun FoodDetailScreen(
           text = "Select Portion",
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
-          color = MaterialTheme.colorScheme.onSurface
+          color = CleanOnSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -348,16 +379,17 @@ fun FoodDetailScreen(
       item {
         Surface(
           shape = RoundedCornerShape(20.dp),
-          color = MaterialTheme.colorScheme.surfaceContainerLowest,
-          shadowElevation = 1.dp,
-          modifier = Modifier.fillMaxWidth()
+          color = CleanSurface,
+          modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, CleanBorder, RoundedCornerShape(20.dp))
         ) {
           Column(modifier = Modifier.padding(16.dp)) {
             Text(
               text = "Nutritional Breakdown (${selectedPortion.name})",
               style = MaterialTheme.typography.titleSmall,
               fontWeight = FontWeight.Bold,
-              color = MaterialTheme.colorScheme.onSurface
+              color = CleanOnSurface
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -392,7 +424,7 @@ fun FoodDetailScreen(
           text = "Meal Type",
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
-          color = MaterialTheme.colorScheme.onSurface
+          color = CleanOnSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -402,14 +434,26 @@ fun FoodDetailScreen(
             FilterChip(
               selected = isSelected,
               onClick = { viewModel.setSelectedMealType(meal) },
-              label = { Text(meal) },
+              label = {
+                Text(
+                  text = meal,
+                  fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                )
+              },
               shape = RoundedCornerShape(12.dp),
               colors = FilterChipDefaults.filterChipColors(
-                selectedContainerColor = SagePrimary,
+                selectedContainerColor = CleanPrimary,
                 selectedLabelColor = Color.White,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                containerColor = CleanSurface,
+                labelColor = CleanOnSurfaceVariant
               ),
-              border = null
+              border = FilterChipDefaults.filterChipBorder(
+                enabled = true,
+                selected = isSelected,
+                borderColor = CleanBorder,
+                selectedBorderColor = CleanPrimary
+              ),
+              modifier = Modifier.testTag("meal_type_$meal")
             )
           }
         }
@@ -421,7 +465,7 @@ fun FoodDetailScreen(
           text = "Log Date",
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
-          color = MaterialTheme.colorScheme.onSurface
+          color = CleanOnSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -431,14 +475,26 @@ fun FoodDetailScreen(
             FilterChip(
               selected = isSelected,
               onClick = { viewModel.setSelectedLogDate(dateStr) },
-              label = { Text(label) },
+              label = {
+                Text(
+                  text = label,
+                  fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                )
+              },
               shape = RoundedCornerShape(12.dp),
               colors = FilterChipDefaults.filterChipColors(
-                selectedContainerColor = SagePrimary,
+                selectedContainerColor = CleanPrimary,
                 selectedLabelColor = Color.White,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                containerColor = CleanSurface,
+                labelColor = CleanOnSurfaceVariant
               ),
-              border = null
+              border = FilterChipDefaults.filterChipBorder(
+                enabled = true,
+                selected = isSelected,
+                borderColor = CleanBorder,
+                selectedBorderColor = CleanPrimary
+              ),
+              modifier = Modifier.testTag("log_date_$label")
             )
           }
         }
@@ -459,8 +515,8 @@ private fun PortionSelectCard(
       .clickable { onClick() }
       .testTag("portion_card_${portion.id}"),
     shape = RoundedCornerShape(14.dp),
-    color = if (isSelected) PrimaryContainer.copy(alpha = 0.3f) else MaterialTheme.colorScheme.surfaceContainerLow,
-    border = if (isSelected) androidx.compose.foundation.BorderStroke(1.5.dp, SagePrimary) else null
+    color = if (isSelected) CleanPillAccent else CleanSurface,
+    border = androidx.compose.foundation.BorderStroke(1.dp, if (isSelected) CleanPrimary else CleanBorder)
   ) {
     Row(
       modifier = Modifier
@@ -474,12 +530,12 @@ private fun PortionSelectCard(
           text = portion.name,
           style = MaterialTheme.typography.bodyMedium,
           fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-          color = MaterialTheme.colorScheme.onSurface
+          color = CleanOnSurface
         )
         Text(
           text = "${portion.calories} kcal • ${portion.protein}g protein • ${portion.fiber}g fiber",
           style = MaterialTheme.typography.bodySmall,
-          color = MaterialTheme.colorScheme.onSurfaceVariant
+          color = CleanOnSurfaceVariant
         )
       }
 
@@ -487,7 +543,7 @@ private fun PortionSelectCard(
         Icon(
           imageVector = Icons.Default.Check,
           contentDescription = null,
-          tint = SagePrimary,
+          tint = CleanPrimary,
           modifier = Modifier.size(20.dp)
         )
       }
@@ -502,12 +558,12 @@ private fun NutrientStat(label: String, value: String) {
       text = value,
       style = MaterialTheme.typography.titleSmall,
       fontWeight = FontWeight.Bold,
-      color = MaterialTheme.colorScheme.onSurface
+      color = CleanOnSurface
     )
     Text(
       text = label,
       style = MaterialTheme.typography.labelSmall,
-      color = MaterialTheme.colorScheme.onSurfaceVariant
+      color = CleanOnSurfaceVariant
     )
   }
 }
