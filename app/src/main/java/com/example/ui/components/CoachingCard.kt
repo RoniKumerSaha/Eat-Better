@@ -1,7 +1,6 @@
 package com.example.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,15 +23,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ui.theme.CleanBorder
+import com.example.R
 import com.example.ui.theme.CleanOnSurface
 import com.example.ui.theme.CleanOnSurfaceVariant
 import com.example.ui.theme.CleanPillAccent
 import com.example.ui.theme.CleanPrimary
 import com.example.ui.theme.CleanSurface
+import com.example.ui.theme.PremiumShapes
+import com.example.ui.theme.PremiumShadows
+import com.example.ui.theme.premiumShadow
 
 @Composable
 fun CoachingCard(
@@ -43,27 +46,27 @@ fun CoachingCard(
   Surface(
     modifier = modifier
       .fillMaxWidth()
-      .border(1.dp, CleanBorder, RoundedCornerShape(20.dp))
+      .premiumShadow(PremiumShadows.CardSubtle, PremiumShapes.medium)
       .testTag("coaching_card"),
-    shape = RoundedCornerShape(20.dp),
+    shape = PremiumShapes.medium,
     color = CleanSurface
   ) {
     Row(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp),
+        .padding(18.dp),
       verticalAlignment = Alignment.Top
     ) {
       Box(
         modifier = Modifier
-          .size(40.dp)
-          .clip(CircleShape)
+          .size(42.dp)
+          .clip(RoundedCornerShape(14.dp))
           .background(CleanPillAccent),
         contentAlignment = Alignment.Center
       ) {
         Icon(
           imageVector = Icons.Default.Spa,
-          contentDescription = "Gentle Guidance",
+          contentDescription = stringResource(R.string.coaching_section_title),
           tint = CleanPrimary,
           modifier = Modifier.size(22.dp)
         )
@@ -73,32 +76,34 @@ fun CoachingCard(
 
       Column(modifier = Modifier.weight(1f)) {
         Text(
-          text = "Gentle Guidance",
+          text = stringResource(R.string.coaching_section_title),
           style = MaterialTheme.typography.titleMedium.copy(
             fontWeight = FontWeight.SemiBold,
-            fontSize = 15.sp
+            fontSize = 14.5.sp,
+            letterSpacing = (-0.2).sp
           ),
           color = CleanOnSurface
         )
 
-        Spacer(modifier = Modifier.height(3.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         Text(
           text = guidanceMessage,
           style = MaterialTheme.typography.bodyMedium.copy(
             fontSize = 13.sp,
-            lineHeight = 18.sp
+            lineHeight = 19.sp
           ),
           color = CleanOnSurfaceVariant
         )
 
         if (nextStepAdvice.isNotBlank()) {
-          Spacer(modifier = Modifier.height(6.dp))
+          Spacer(modifier = Modifier.height(8.dp))
           Text(
-            text = "Next step: $nextStepAdvice",
+            text = stringResource(R.string.coaching_next_step, nextStepAdvice),
             style = MaterialTheme.typography.bodySmall.copy(
-              fontWeight = FontWeight.Medium,
-              fontSize = 12.sp
+              fontWeight = FontWeight.SemiBold,
+              fontSize = 12.sp,
+              letterSpacing = 0.2.sp
             ),
             color = CleanPrimary
           )
@@ -107,4 +112,3 @@ fun CoachingCard(
     }
   }
 }
-

@@ -50,10 +50,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.local.DefaultChallenges
 import com.example.data.local.entity.FoodEntryEntity
 import com.example.scoring.NutritionScoringEngine
@@ -70,8 +72,12 @@ import com.example.ui.theme.CleanPrimary
 import com.example.ui.theme.CleanPrimaryContainer
 import com.example.ui.theme.CleanSubtleText
 import com.example.ui.theme.CleanSurface
+import com.example.ui.theme.PremiumGradients
+import com.example.ui.theme.PremiumShapes
+import com.example.ui.theme.PremiumShadows
 import com.example.ui.theme.ScoreGentleWarm
 import com.example.ui.theme.ScoreMidOat
+import com.example.ui.theme.premiumShadow
 import com.example.ui.viewmodel.EatBetterViewModel
 import com.example.ui.viewmodel.UiState
 import java.text.SimpleDateFormat
@@ -126,14 +132,15 @@ fun HomeScreen(
 
   var showScoreExplainer by remember { mutableStateOf(false) }
 
-  val formattedDate = remember(activeDate) {
+  val todayLabel = stringResource(R.string.date_today)
+  val formattedDate = remember(activeDate, todayLabel) {
     try {
       val parsed = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(activeDate)
       if (parsed != null) {
         SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(parsed)
-      } else "Today"
+      } else todayLabel
     } catch (_: Exception) {
-      "Today"
+      todayLabel
     }
   }
 
@@ -150,7 +157,7 @@ fun HomeScreen(
         title = {
           Column {
             Text(
-              text = "Eat Better",
+              text = stringResource(R.string.app_name),
               style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 22.sp,
@@ -181,13 +188,13 @@ fun HomeScreen(
             ) {
               Icon(
                 imageVector = Icons.Default.LocalFireDepartment,
-                contentDescription = "Streak",
+                contentDescription = stringResource(R.string.home_streak_content_description),
                 tint = CleanPrimary,
                 modifier = Modifier.size(16.dp)
               )
               Spacer(modifier = Modifier.width(4.dp))
               Text(
-                text = "${uiState.streakDays}d",
+                text = stringResource(R.string.home_streak_days, uiState.streakDays),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = CleanPrimary
               )
@@ -201,7 +208,7 @@ fun HomeScreen(
           ) {
             Icon(
               imageVector = Icons.Default.Share,
-              contentDescription = "Share",
+              contentDescription = stringResource(R.string.action_share),
               tint = CleanOnSurfaceVariant
             )
           }
@@ -242,9 +249,9 @@ fun HomeScreen(
           modifier = Modifier.padding(horizontal = 16.dp),
           verticalAlignment = Alignment.CenterVertically
         ) {
-          Icon(Icons.Default.Add, contentDescription = "Log Food")
+          Icon(Icons.Default.Add, contentDescription = stringResource(R.string.action_log_food))
           Spacer(modifier = Modifier.width(6.dp))
-          Text("Log Food", fontWeight = FontWeight.Bold)
+          Text(stringResource(R.string.action_log_food), fontWeight = FontWeight.Bold)
         }
       }
     },
@@ -265,9 +272,9 @@ fun HomeScreen(
         Row(
           modifier = Modifier
             .fillMaxWidth()
+            .premiumShadow(PremiumShadows.CardSubtle, RoundedCornerShape(16.dp))
             .clip(RoundedCornerShape(16.dp))
             .background(CleanSurface)
-            .border(1.dp, CleanBorder, RoundedCornerShape(16.dp))
             .padding(4.dp),
           horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -281,13 +288,15 @@ fun HomeScreen(
               color = if (isSelected) CleanPillAccent else Color.Transparent
             ) {
               Box(
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 9.dp),
                 contentAlignment = Alignment.Center
               ) {
                 Text(
                   text = label,
-                  style = MaterialTheme.typography.labelMedium,
-                  fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                  style = MaterialTheme.typography.labelMedium.copy(
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                    letterSpacing = (-0.1).sp
+                  ),
                   color = if (isSelected) CleanPrimary else CleanOnSurfaceVariant
                 )
               }
@@ -296,19 +305,21 @@ fun HomeScreen(
         }
       }
 
-      // Hero Score Card (Clean Minimal Mint Container with Gauge + Guidance)
+      // Hero Score Card (Premium Mint Container with Gradient + Soft Shadow)
       item {
         Surface(
           modifier = Modifier
             .fillMaxWidth()
+            .premiumShadow(PremiumShadows.CardHero, PremiumShapes.extraLarge)
             .testTag("hero_score_card"),
-          shape = RoundedCornerShape(32.dp),
-          color = CleanPrimaryContainer
+          shape = PremiumShapes.extraLarge,
+          color = Color.Transparent
         ) {
           Column(
             modifier = Modifier
               .fillMaxWidth()
-              .padding(24.dp),
+              .background(PremiumGradients.HeroSage)
+              .padding(26.dp),
             horizontalAlignment = Alignment.CenterHorizontally
           ) {
             ScoreRing(
@@ -332,7 +343,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-              text = "“${scoreResult.gentleGuidanceMessage}”",
+              text = stringResource(R.string.home_score_quote, scoreResult.gentleGuidanceMessage),
               style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 12.sp,
                 fontStyle = FontStyle.Italic
@@ -359,7 +370,7 @@ fun HomeScreen(
               )
               Spacer(modifier = Modifier.width(4.dp))
               Text(
-                text = if (showScoreExplainer) "Hide details" else "Why this score?",
+                text = if (showScoreExplainer) stringResource(R.string.home_hide_details) else stringResource(R.string.home_why_this_score),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
                 color = CleanOnSurfaceVariant
               )
@@ -375,14 +386,14 @@ fun HomeScreen(
               ) {
                 Column(modifier = Modifier.padding(14.dp)) {
                   Text(
-                    text = "Understanding Your Nutrition Score",
+                    text = stringResource(R.string.home_score_explainer_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = CleanOnSurface
                   )
                   Spacer(modifier = Modifier.height(6.dp))
                   Text(
-                    text = "• Scores reflect the nutritional density (vitamins, fiber, clean protein, wholesome fats) of each portion.\n• Wholesome variety adds gentle bonuses.\n• Completing your daily challenge adds +5 bonus points.\n• Non-punitive: one less nutrient-dense item won't ruin a wholesome day.",
+                    text = stringResource(R.string.home_score_explainer_body),
                     style = MaterialTheme.typography.bodySmall,
                     color = CleanOnSurfaceVariant,
                     lineHeight = 17.sp
@@ -439,7 +450,7 @@ fun HomeScreen(
           verticalAlignment = Alignment.CenterVertically
         ) {
           Text(
-            text = "Logged Foods (${entries.size})",
+            text = stringResource(R.string.home_logged_foods_count, entries.size),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = CleanOnSurface
@@ -453,7 +464,7 @@ fun HomeScreen(
               verticalAlignment = Alignment.CenterVertically
             ) {
               Text(
-                text = "View all",
+                text = stringResource(R.string.home_view_all),
                 style = MaterialTheme.typography.labelMedium,
                 color = CleanPrimary,
                 fontWeight = FontWeight.SemiBold
@@ -483,7 +494,7 @@ fun HomeScreen(
               horizontalAlignment = Alignment.CenterHorizontally
             ) {
               Text(
-                text = "No meals logged for this day yet.",
+                text = stringResource(R.string.home_no_meals_yet),
                 style = MaterialTheme.typography.bodyMedium,
                 color = CleanOnSurfaceVariant
               )
@@ -495,7 +506,7 @@ fun HomeScreen(
               ) {
                 Icon(Icons.Default.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Log Food Now")
+                Text(stringResource(R.string.action_log_food_now))
               }
             }
           }
@@ -524,11 +535,11 @@ fun LoggedFoodRowItem(
   }
 
   Surface(
-    shape = RoundedCornerShape(20.dp),
+    shape = PremiumShapes.medium,
     color = CleanSurface,
     modifier = Modifier
       .fillMaxWidth()
-      .border(1.dp, CleanBorder, RoundedCornerShape(20.dp))
+      .premiumShadow(PremiumShadows.CardSubtle, PremiumShapes.medium)
       .testTag("logged_entry_${entry.id}")
   ) {
     Row(
@@ -537,18 +548,21 @@ fun LoggedFoodRowItem(
         .padding(14.dp),
       verticalAlignment = Alignment.CenterVertically
     ) {
-      // Score badge
+      // Score badge in tinted pill
       Box(
         modifier = Modifier
           .size(40.dp)
           .clip(CircleShape)
-          .background(CleanPillAccent),
+          .background(scoreColor.copy(alpha = 0.13f)),
         contentAlignment = Alignment.Center
       ) {
         Text(
           text = "${entry.baseScore}",
-          style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-          color = CleanPrimary
+          style = MaterialTheme.typography.titleMedium.copy(
+            fontWeight = FontWeight.Bold,
+            letterSpacing = (-0.5).sp
+          ),
+          color = scoreColor
         )
       }
 
@@ -565,7 +579,7 @@ fun LoggedFoodRowItem(
         Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-          text = "${entry.mealType} • ${entry.portionName} • ${entry.calories} kcal",
+          text = stringResource(R.string.home_entry_subtitle, entry.mealType, entry.portionName, entry.calories),
           style = MaterialTheme.typography.bodySmall,
           color = CleanOnSurfaceVariant
         )
@@ -574,7 +588,7 @@ fun LoggedFoodRowItem(
       IconButton(onClick = onDelete) {
         Icon(
           imageVector = Icons.Default.Delete,
-          contentDescription = "Remove entry",
+          contentDescription = stringResource(R.string.action_remove_entry),
           tint = CleanSubtleText.copy(alpha = 0.6f),
           modifier = Modifier.size(20.dp)
         )

@@ -18,4 +18,7 @@ interface UserSettingsDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertOrUpdate(settings: UserSettingsEntity)
+
+  @Query("DELETE FROM user_settings")
+  suspend fun clearAllSettings()
 }

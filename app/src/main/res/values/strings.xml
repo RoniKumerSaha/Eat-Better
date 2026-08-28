@@ -1,3 +1,242 @@
 <resources>
     <string name="app_name">Eat Better</string>
+
+    <!-- Bottom navigation tabs -->
+    <string name="nav_home">Home</string>
+    <string name="nav_library">Library</string>
+    <string name="nav_progress">Progress</string>
+    <string name="nav_badges">Badges</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Generic actions -->
+    <string name="action_back">Back</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_get_started">Get Started</string>
+    <string name="action_save_preferences">Save Preferences</string>
+    <string name="action_log_food">Log Food</string>
+    <string name="action_log_food_now">Log Food Now</string>
+    <string name="action_reset_filters">Reset Filters</string>
+    <string name="action_close">Close</string>
+    <string name="action_remove_entry">Remove entry</string>
+    <string name="action_share">Share</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_tagline">A calm, non-judgmental companion to understand food quality and build healthier habits.</string>
+    <string name="onboarding_how_it_works_title">✨ How It Works</string>
+    <string name="onboarding_bullet_score_title">0–100 Nutrition Score</string>
+    <string name="onboarding_bullet_score_desc">We measure the nutrient density of what you eat, not obsessive calorie tracking or guilt.</string>
+    <string name="onboarding_bullet_offline_title">100% Offline &amp; Private</string>
+    <string name="onboarding_bullet_offline_desc">No cloud login or data harvesting. All your logs stay locally on your device in Room SQLite.</string>
+    <string name="onboarding_bullet_gentle_title">Gentle Guidance</string>
+    <string name="onboarding_bullet_gentle_desc">One less-nutritious meal doesn\'t ruin your day. We help you make your next choice wholesome.</string>
+    <string name="onboarding_name_label">Your Name (Optional)</string>
+    <string name="onboarding_name_placeholder">e.g. Rahim</string>
+    <string name="onboarding_step_two_goals_header">Select Your Goals</string>
+    <string name="onboarding_step_two_meals_header">Your Usual Meals</string>
+    <string name="onboarding_default_goal">Eat healthier overall</string>
+    <string name="onboarding_disclaimer">Eat Better is for general wellness only and is not a substitute for medical or dietary advice.</string>
+    <string name="onboarding_eat_better_content_description">Eat Better</string>
+
+    <!-- Goal options -->
+    <string name="goal_eat_healthier">Eat healthier overall</string>
+    <string name="goal_manage_weight">Manage weight gently</string>
+    <string name="goal_improve_nutrition">Improve nutrition/balance</string>
+    <string name="goal_mindful_eating">Build positive mindful eating habits</string>
+
+    <!-- Meal names -->
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_dinner">Dinner</string>
+    <string name="meal_snack">Snack</string>
+    <string name="meal_status_logged">Logged</string>
+    <string name="meal_status_skipped">Skipped</string>
+    <string name="meal_status_pending">Pending...</string>
+
+    <!-- Home -->
+    <string name="home_streak_content_description">Streak</string>
+    <string name="home_streak_days">%1$dd</string>
+    <string name="home_today_fallback">Today</string>
+    <string name="home_why_this_score">Why this score?</string>
+    <string name="home_hide_details">Hide details</string>
+    <string name="home_score_explainer_title">Understanding Your Nutrition Score</string>
+    <string name="home_score_explainer_body">• Scores reflect the nutritional density (vitamins, fiber, clean protein, wholesome fats) of each portion.
+• Wholesome variety adds gentle bonuses.
+• Completing your daily challenge adds +5 bonus points.
+• Non-punitive: one less nutrient-dense item won\'t ruin a wholesome day.</string>
+    <string name="home_logged_foods_count">Logged Foods (%1$d)</string>
+    <string name="home_view_all">View all</string>
+    <string name="home_no_meals_yet">No meals logged for this day yet.</string>
+    <string name="home_entry_subtitle">%1$s • %2$s • %3$d kcal</string>
+    <string name="home_score_quote">“%1$s”</string>
+
+    <!-- Date tabs -->
+    <string name="date_today">Today</string>
+    <string name="date_yesterday">Yesterday</string>
+    <string name="date_two_days_ago">2 Days Ago</string>
+
+    <!-- Foods / Library -->
+    <string name="foods_title">Food Database</string>
+    <string name="foods_count">%1$d wholesome foods available</string>
+    <string name="foods_search_placeholder">Search foods (e.g. apple, dal, bhat, mach)...</string>
+    <string name="foods_saved">Saved</string>
+    <string name="foods_saved_only">Saved Only</string>
+    <string name="foods_search">Search</string>
+    <string name="foods_clear_search">Clear search</string>
+    <string name="foods_empty_title">No foods found</string>
+    <string name="foods_empty_body">Try searching for a different food or reset your category filter.</string>
+
+    <!-- Food categories -->
+    <string name="category_all">All</string>
+    <string name="category_bangladesh">Bangladesh</string>
+    <string name="category_fruits">Fruits</string>
+    <string name="category_vegetables">Vegetables</string>
+    <string name="category_meals">Meals</string>
+    <string name="category_snacks">Snacks</string>
+    <string name="category_drinks">Drinks</string>
+
+    <!-- Food card -->
+    <string name="food_card_local">Local</string>
+    <string name="food_card_favorite_content_description">Favorite</string>
+
+    <!-- Food detail -->
+    <string name="food_detail_title">Food Details</string>
+    <string name="food_detail_score_format">Score: %1$d/10</string>
+    <string name="food_detail_why_this_score">Why this score?</string>
+    <string name="food_detail_educational_intro">A convenient natural energy booster rich in potassium, vitamin B6, and prebiotic resistant starch.</string>
+    <string name="food_detail_select_portion">Select Portion</string>
+    <string name="food_detail_nutritional_breakdown">Nutritional Breakdown (%1$s)</string>
+    <string name="food_detail_calories">Calories</string>
+    <string name="food_detail_carbs">Carbs</string>
+    <string name="food_detail_protein">Protein</string>
+    <string name="food_detail_fat">Fat</string>
+    <string name="food_detail_fiber">Fiber</string>
+    <string name="food_detail_sugar">Sugar</string>
+    <string name="food_detail_sodium">Sodium</string>
+    <string name="food_detail_servings">Servings</string>
+    <string name="food_detail_log_for_meal">Log for %1$s (%2$d kcal)</string>
+    <string name="food_detail_score_factors">Score Factors</string>
+    <string name="food_detail_meal_type">Meal Type</string>
+    <string name="food_detail_log_date">Log Date</string>
+    <string name="food_detail_portion_subtitle">%1$d kcal • %2$.1fg protein • %3$.1fg fiber</string>
+    <string name="food_detail_calories_value">%1$d kcal</string>
+    <string name="food_detail_carbs_value">%1$.1fg</string>
+    <string name="food_detail_protein_value">%1$.1fg</string>
+    <string name="food_detail_fat_value">%1$.1fg</string>
+    <string name="food_detail_fiber_value">%1$.1fg</string>
+    <string name="food_detail_sugar_value">%1$.1fg</string>
+    <string name="food_detail_sodium_value">%1$dmg</string>
+    <string name="food_detail_multiplier_value">%1$.1fx</string>
+
+    <!-- Progress -->
+    <string name="progress_title">Progress &amp; Trends</string>
+    <string name="progress_seven_day_avg">7-Day Average</string>
+    <string name="progress_seven_day_avg_value">%1$d/100</string>
+    <string name="progress_seven_day_avg_caption">Balanced &amp; steady</string>
+    <string name="progress_active_streak">Active Streak</string>
+    <string name="progress_active_streak_value">%1$d days</string>
+    <string name="progress_active_streak_caption">Mindful habit strong</string>
+    <string name="progress_active_streak_unit"> days</string>
+    <string name="progress_weekly_chart_title">Weekly Nutrition Trend</string>
+    <string name="progress_weekly_chart_subtitle">Scores across the last 7 days</string>
+    <string name="progress_mindful_insights">Mindful Insights</string>
+    <string name="progress_mindful_insights_body">• Consistent breakfast habits fuel your morning focus without energy spikes.
+• Adding leafy greens and pure hydration gives your daily score an immediate boost.
+• You have logged 10+ wholesome Bangladesh foods this week!</string>
+    <string name="progress_share_content_description">Share</string>
+    <string name="progress_score_label_value">%1$d</string>
+    <string name="progress_out_of_hundred">/100</string>
+    <string name="progress_today_label">Today</string>
+
+    <!-- Achievements / Badges -->
+    <string name="achievements_title">Badges &amp; Milestones</string>
+    <string name="achievements_subtitle">Celebrate mindful eating milestones</string>
+    <string name="achievements_count_of_total">%1$d of %2$d Badges</string>
+    <string name="achievements_subtitle_text">Earned through small daily mindful choices.</string>
+    <string name="achievements_unlocked">✓ Unlocked</string>
+    <string name="achievements_in_progress">In Progress (%1$d/%2$d)</string>
+    <string name="achievements_progress_short">%1$d/%2$d</string>
+    <string name="badge_unlocked_content_description">Unlocked</string>
+
+    <!-- Share card dialog -->
+    <string name="share_title">Share Score Card</string>
+    <string name="share_app_brand">Eat Better</string>
+    <string name="share_name_daily_nutrition">%1$s\'s Daily Nutrition</string>
+    <string name="share_my_daily_nutrition">My Daily Nutrition</string>
+    <string name="share_score_value">%1$d</string>
+    <string name="share_score_out_of_hundred">%1$d/100</string>
+    <string name="share_streak_days_value"> %1$d Days</string>
+    <string name="share_nutritious_percent_value"> %1$d%%</string>
+    <string name="share_mindful_streak">Mindful Streak</string>
+    <string name="share_nutritious_food">Nutritious Food</string>
+    <string name="share_tagline">Small choices • Lasting wellness</string>
+    <string name="share_with_friends">Share with Friends &amp; Family</string>
+    <string name="share_intent_title">Share your Nutrition Score</string>
+    <string name="share_intent_my_score_title">My Eat Better Nutrition Score</string>
+    <string name="share_intent_name_score_title">%1$s\'s Eat Better Score</string>
+    <string name="share_intent_body_format">%1$s: %2$d/100 (%3$d%% nutritious choices, %4$d-day mindful streak!). Understanding what I eat with Eat Better.</string>
+    <string name="share_close_content_description">Close</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings &amp; Privacy</string>
+    <string name="settings_profile_name">Profile Name</string>
+    <string name="settings_profile_name_placeholder">e.g. Rahim</string>
+    <string name="settings_goals_section">Personal Wellness Goals</string>
+    <string name="settings_meal_schedules">Active Meal Schedules</string>
+    <string name="settings_offline_title">100% Offline &amp; Private</string>
+    <string name="settings_offline_body">Eat Better operates entirely on your device. Your food logs, nutrition scores, and daily milestones are saved in a local SQLite Room database and are never uploaded to any remote server.</string>
+    <string name="settings_goal_eat_healthier">Eat healthier overall</string>
+    <string name="settings_goal_manage_weight">Manage weight gently</string>
+    <string name="settings_goal_improve_variety">Improve nutrient variety &amp; fiber</string>
+    <string name="settings_goal_mindful_habits">Build positive mindful eating habits</string>
+    <string name="settings_meal_breakfast">Breakfast</string>
+    <string name="settings_meal_lunch">Lunch</string>
+    <string name="settings_meal_dinner">Dinner</string>
+    <string name="settings_meal_snacks">Snacks</string>
+
+    <!-- Settings: Privacy & About card -->
+    <string name="settings_legal_title">Privacy &amp; About</string>
+    <string name="settings_legal_privacy_policy">Privacy Policy</string>
+    <string name="settings_legal_terms">Terms of Service</string>
+    <string name="settings_legal_about">About Eat Better</string>
+    <string name="settings_legal_medical_disclaimer">Not Medical Advice</string>
+    <string name="settings_about_dialog_title">About Eat Better</string>
+    <string name="settings_about_version">Version %1$s</string>
+    <string name="settings_about_body">A calm, offline-first nutrition companion. All your data lives on your phone. For general wellness only — not a substitute for medical or dietary advice.</string>
+    <string name="settings_medical_disclaimer_title">Not Medical Advice</string>
+    <string name="settings_contact_support">Contact support</string>
+
+    <!-- Settings: Reset Data card -->
+    <string name="settings_reset_card_title">Reset All Data</string>
+    <string name="settings_reset_card_body">Permanently remove every food log, daily score, streak, badge, favorite, and the saved profile. The food library stays.</string>
+    <string name="settings_reset_card_button">Clear My Data</string>
+    <string name="settings_reset_confirm_title">Reset all your data?</string>
+    <string name="settings_reset_confirm_body">All your food logs, streaks, and badges will be permanently removed. You\'ll start the welcome flow again.</string>
+    <string name="settings_reset_confirm_action">Reset Everything</string>
+    <string name="settings_reset_confirm_cancel">Cancel</string>
+
+    <!-- Log history -->
+    <string name="log_history_title">Log History</string>
+    <string name="log_history_add_food">Add food to %1$s</string>
+    <string name="log_history_empty">Nothing logged yet.</string>
+    <string name="log_history_food_log_title">Food Log</string>
+    <string name="log_history_entry_subtitle">%1$s • %2$d kcal</string>
+    <string name="log_history_delete_content_description">Delete entry</string>
+    <string name="log_history_score_value">%1$d</string>
+
+    <!-- Coaching / challenge card -->
+    <string name="coaching_section_title">Gentle Guidance</string>
+    <string name="coaching_next_step">Next step: %1$s</string>
+    <string name="challenge_section_label">DAILY CHALLENGE</string>
+    <string name="challenge_complete">Challenge Complete</string>
+
+    <!-- Score ring -->
+    <string name="score_label">SCORE</string>
+
+    <!-- Nutritious balance card -->
+    <string name="nutritious_balance_title"> Nutritious Balance</string>
+    <string name="nutritious_balance_percent">%1$d%%</string>
+    <string name="nutritious_balance_target">Daily Target: %1$d%%</string>
+
+    <!-- Score ring -->
+    <string name="score_ring_value">%1$d</string>
 </resources>

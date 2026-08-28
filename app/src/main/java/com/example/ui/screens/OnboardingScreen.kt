@@ -44,10 +44,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.ui.theme.CleanBackground
 import com.example.ui.theme.CleanBorder
 import com.example.ui.theme.CleanOnSurface
@@ -56,16 +58,20 @@ import com.example.ui.theme.CleanPillAccent
 import com.example.ui.theme.CleanPrimary
 import com.example.ui.theme.CleanSubtleText
 import com.example.ui.theme.CleanSurface
-import com.example.ui.theme.CleanSurfaceLow
 
 @Composable
 fun OnboardingScreen(
   onComplete: (displayName: String, goals: List<String>, breakfast: Boolean, lunch: Boolean, dinner: Boolean, snacks: Boolean) -> Unit
 ) {
+  val defaultGoal = stringResource(R.string.onboarding_default_goal)
+  val goalEatHealthier = stringResource(R.string.settings_goal_eat_healthier)
+  val goalImproveVariety = stringResource(R.string.settings_goal_improve_variety)
+  val goalManageWeight = stringResource(R.string.settings_goal_manage_weight)
+
   var step by remember { mutableStateOf(1) }
   var name by remember { mutableStateOf("") }
   val selectedGoals = remember {
-    mutableStateListOf("Eat healthier overall", "Improve nutrition/balance")
+    mutableStateListOf(goalEatHealthier, goalImproveVariety)
   }
   var breakfastChecked by remember { mutableStateOf(true) }
   var lunchChecked by remember { mutableStateOf(true) }
@@ -101,7 +107,7 @@ fun OnboardingScreen(
         ) {
           Icon(
             imageVector = Icons.Default.Spa,
-            contentDescription = "Eat Better",
+            contentDescription = stringResource(R.string.onboarding_eat_better_content_description),
             tint = CleanPrimary,
             modifier = Modifier.size(38.dp)
           )
@@ -110,7 +116,7 @@ fun OnboardingScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-          text = "Eat Better",
+          text = stringResource(R.string.app_name),
           style = MaterialTheme.typography.headlineLarge.copy(
             fontWeight = FontWeight.Bold,
             letterSpacing = (-0.5).sp
@@ -121,7 +127,7 @@ fun OnboardingScreen(
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
-          text = "A calm, non-judgmental companion to understand food quality and build healthier habits.",
+          text = stringResource(R.string.onboarding_tagline),
           style = MaterialTheme.typography.bodyMedium,
           textAlign = TextAlign.Center,
           color = CleanOnSurfaceVariant
@@ -140,7 +146,7 @@ fun OnboardingScreen(
           ) {
             Column(modifier = Modifier.padding(20.dp)) {
               Text(
-                text = "✨ How It Works",
+                text = stringResource(R.string.onboarding_how_it_works_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = CleanOnSurface
@@ -148,18 +154,18 @@ fun OnboardingScreen(
               Spacer(modifier = Modifier.height(12.dp))
 
               OnboardingBullet(
-                title = "0–100 Nutrition Score",
-                desc = "We measure the nutrient density of what you eat, not obsessive calorie tracking or guilt."
+                title = stringResource(R.string.onboarding_bullet_score_title),
+                desc = stringResource(R.string.onboarding_bullet_score_desc)
               )
               Spacer(modifier = Modifier.height(10.dp))
               OnboardingBullet(
-                title = "100% Offline & Private",
-                desc = "No cloud login or data harvesting. All your logs stay locally on your device in Room SQLite."
+                title = stringResource(R.string.onboarding_bullet_offline_title),
+                desc = stringResource(R.string.onboarding_bullet_offline_desc)
               )
               Spacer(modifier = Modifier.height(10.dp))
               OnboardingBullet(
-                title = "Gentle Guidance",
-                desc = "One less-nutritious meal doesn't ruin your day. We help you make your next choice wholesome."
+                title = stringResource(R.string.onboarding_bullet_gentle_title),
+                desc = stringResource(R.string.onboarding_bullet_gentle_desc)
               )
             }
           }
@@ -170,8 +176,8 @@ fun OnboardingScreen(
           OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Your Name (Optional)", color = CleanOnSurfaceVariant) },
-            placeholder = { Text("e.g. Rahim", color = CleanSubtleText) },
+            label = { Text(stringResource(R.string.onboarding_name_label), color = CleanOnSurfaceVariant) },
+            placeholder = { Text(stringResource(R.string.onboarding_name_placeholder), color = CleanSubtleText) },
             singleLine = true,
             modifier = Modifier
               .fillMaxWidth()
@@ -195,7 +201,7 @@ fun OnboardingScreen(
         // Step 2: Personal Goals & Usual Meals
         if (step == 2) {
           Text(
-            text = "Select Your Goals",
+            text = stringResource(R.string.onboarding_step_two_goals_header),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = CleanOnSurface,
@@ -204,9 +210,9 @@ fun OnboardingScreen(
           Spacer(modifier = Modifier.height(10.dp))
 
           val allGoals = listOf(
-            "Eat healthier overall",
-            "Manage weight gently",
-            "Improve nutrition/balance"
+            goalEatHealthier,
+            goalManageWeight,
+            goalImproveVariety
           )
 
           allGoals.forEach { goal ->
@@ -225,7 +231,7 @@ fun OnboardingScreen(
           Spacer(modifier = Modifier.height(18.dp))
 
           Text(
-            text = "Your Usual Meals",
+            text = stringResource(R.string.onboarding_step_two_meals_header),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = CleanOnSurface,
@@ -237,17 +243,28 @@ fun OnboardingScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
           ) {
-            MealCheckChip("Breakfast", breakfastChecked) { breakfastChecked = it }
-            MealCheckChip("Lunch", lunchChecked) { lunchChecked = it }
+            MealCheckChip(stringResource(R.string.settings_meal_breakfast), breakfastChecked) { breakfastChecked = it }
+            MealCheckChip(stringResource(R.string.settings_meal_lunch), lunchChecked) { lunchChecked = it }
           }
           Spacer(modifier = Modifier.height(8.dp))
           Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
           ) {
-            MealCheckChip("Dinner", dinnerChecked) { dinnerChecked = it }
-            MealCheckChip("Snacks", snacksChecked) { snacksChecked = it }
+            MealCheckChip(stringResource(R.string.settings_meal_dinner), dinnerChecked) { dinnerChecked = it }
+            MealCheckChip(stringResource(R.string.settings_meal_snacks), snacksChecked) { snacksChecked = it }
           }
+
+          Spacer(modifier = Modifier.height(18.dp))
+
+          // Medical advice disclaimer
+          Text(
+            text = stringResource(R.string.onboarding_disclaimer),
+            style = MaterialTheme.typography.bodySmall,
+            color = CleanSubtleText,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+          )
         }
       }
 
@@ -264,7 +281,7 @@ fun OnboardingScreen(
             } else {
               onComplete(
                 name,
-                if (selectedGoals.isEmpty()) listOf("Eat healthier overall") else selectedGoals.toList(),
+                if (selectedGoals.isEmpty()) listOf(defaultGoal) else selectedGoals.toList(),
                 breakfastChecked,
                 lunchChecked,
                 dinnerChecked,
@@ -283,7 +300,7 @@ fun OnboardingScreen(
           )
         ) {
           Text(
-            text = if (step == 1) "Continue" else "Get Started",
+            text = if (step == 1) stringResource(R.string.action_continue) else stringResource(R.string.action_get_started),
             style = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp),
             fontWeight = FontWeight.Bold,
             color = Color.White

@@ -54,9 +54,11 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.model.FoodItem
 import com.example.model.PortionOption
 import com.example.ui.components.getFoodIcon
@@ -68,8 +70,13 @@ import com.example.ui.theme.CleanPillAccent
 import com.example.ui.theme.CleanPrimary
 import com.example.ui.theme.CleanSurface
 import com.example.ui.theme.CleanSurfaceLow
+import com.example.ui.theme.PremiumGradients
+import com.example.ui.theme.PremiumShapes
+import com.example.ui.theme.PremiumShadow
+import com.example.ui.theme.PremiumShadows
 import com.example.ui.theme.ScoreGentleWarm
 import com.example.ui.theme.ScoreMidOat
+import com.example.ui.theme.premiumShadow
 import com.example.ui.viewmodel.EatBetterViewModel
 import com.example.ui.viewmodel.UiState
 
@@ -82,7 +89,15 @@ fun FoodDetailScreen(
   onNavigateBack: () -> Unit
 ) {
   val selectedPortion = uiState.selectedPortion ?: food.portions.firstOrNull() ?: PortionOption("default", "Standard Serving", 1f, 100, 10f, 2f, 1f, 1f, 1f, 10f)
+  // Meal-type identifiers are used as keys for viewModel.setSelectedMealType(),
+  // so they must stay English ("Breakfast", "Lunch", "Dinner", "Snack").
   val mealTypes = listOf("Breakfast", "Lunch", "Dinner", "Snack")
+  val mealLabels = mapOf(
+    "Breakfast" to stringResource(R.string.meal_breakfast),
+    "Lunch" to stringResource(R.string.meal_lunch),
+    "Dinner" to stringResource(R.string.meal_dinner),
+    "Snack" to stringResource(R.string.meal_snack)
+  )
   val backfillDates = viewModel.getBackfillDates()
   val activeLogDate = uiState.selectedLogDate.ifBlank { uiState.todayDate }
 
@@ -102,7 +117,7 @@ fun FoodDetailScreen(
         ),
         title = {
           Text(
-            text = "Food Details",
+            text = stringResource(R.string.food_detail_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = CleanOnSurface
@@ -112,7 +127,7 @@ fun FoodDetailScreen(
           IconButton(onClick = onNavigateBack) {
             Icon(
               imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-              contentDescription = "Back",
+              contentDescription = stringResource(R.string.action_back),
               tint = CleanOnSurface
             )
           }
@@ -124,7 +139,7 @@ fun FoodDetailScreen(
           ) {
             Icon(
               imageVector = if (food.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-              contentDescription = "Favorite",
+              contentDescription = stringResource(R.string.food_card_favorite_content_description),
               tint = if (food.isFavorite) CleanPrimary else CleanOnSurfaceVariant
             )
           }
@@ -137,6 +152,15 @@ fun FoodDetailScreen(
         tonalElevation = 0.dp,
         modifier = Modifier
           .fillMaxWidth()
+          .premiumShadow(
+            shadow = PremiumShadow(
+              elevation = 12.dp,
+              ambientColor = androidx.compose.ui.graphics.Color(0x1F386B40),
+              spotColor = androidx.compose.ui.graphics.Color(0x29386B40)
+            ),
+            shape = RoundedCornerShape(0.dp),
+            clip = false
+          )
           .drawBehind {
             drawLine(
               color = CleanBorder,
@@ -160,6 +184,7 @@ fun FoodDetailScreen(
             modifier = Modifier
               .fillMaxWidth()
               .height(54.dp)
+              .premiumShadow(PremiumShadows.Floating, RoundedCornerShape(16.dp), clip = false)
               .testTag("confirm_log_food_button"),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
@@ -170,8 +195,12 @@ fun FoodDetailScreen(
             Icon(Icons.Default.Check, contentDescription = null, tint = Color.White)
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-              text = "Log for ${uiState.selectedMealType} (${selectedPortion.calories} kcal)",
-              style = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp),
+              text = stringResource(
+                R.string.food_detail_log_for_meal,
+                mealLabels[uiState.selectedMealType] ?: uiState.selectedMealType,
+                selectedPortion.calories
+              ),
+              style = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp, letterSpacing = 0.2.sp),
               fontWeight = FontWeight.Bold,
               color = Color.White
             )
@@ -193,16 +222,21 @@ fun FoodDetailScreen(
       // Hero Food Header Card
       item {
         Surface(
-          shape = RoundedCornerShape(24.dp),
-          color = CleanSurface,
+          shape = PremiumShapes.large,
+          color = Color.Transparent,
           modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, CleanBorder, RoundedCornerShape(24.dp))
+            .premiumShadow(PremiumShadows.CardHero, PremiumShapes.large)
         ) {
+          Box(
+            modifier = Modifier
+              .fillMaxWidth()
+              .background(PremiumGradients.HeroSage)
+          ) {
           Column(
             modifier = Modifier
               .fillMaxWidth()
-              .padding(20.dp),
+              .padding(22.dp),
             horizontalAlignment = Alignment.CenterHorizontally
           ) {
             // Icon in colored container
@@ -214,7 +248,7 @@ fun FoodDetailScreen(
               contentAlignment = Alignment.Center
             ) {
               Icon(
-                imageVector = getFoodIcon(food.iconSymbol, food.categoryId),
+                imageVector = getFoodIcon(food),
                 contentDescription = food.name,
                 tint = CleanPrimary,
                 modifier = Modifier.size(44.dp)
@@ -254,7 +288,7 @@ fun FoodDetailScreen(
                   verticalAlignment = Alignment.CenterVertically
                 ) {
                   Text(
-                    text = "Score: ${food.baseScore}/10",
+                    text = stringResource(R.string.food_detail_score_format, food.baseScore),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = CleanPrimary
                   )
@@ -282,7 +316,7 @@ fun FoodDetailScreen(
                   )
                   Spacer(modifier = Modifier.width(4.dp))
                   Text(
-                    text = "Why this score?",
+                    text = stringResource(R.string.food_detail_why_this_score),
                     style = MaterialTheme.typography.labelSmall,
                     color = CleanOnSurfaceVariant
                   )
@@ -302,7 +336,7 @@ fun FoodDetailScreen(
               ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                   Text(
-                    text = "Score Factors",
+                    text = stringResource(R.string.food_detail_score_factors),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = CleanOnSurface
@@ -322,15 +356,16 @@ fun FoodDetailScreen(
           }
         }
       }
+      }
 
       // Educational Nutrition Text
       item {
         Surface(
-          shape = RoundedCornerShape(20.dp),
+          shape = PremiumShapes.medium,
           color = CleanSurface,
           modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, CleanBorder, RoundedCornerShape(20.dp))
+            .premiumShadow(PremiumShadows.CardSubtle, PremiumShapes.medium)
         ) {
           Row(
             modifier = Modifier.padding(16.dp),
@@ -356,7 +391,7 @@ fun FoodDetailScreen(
       // Portion Options
       item {
         Text(
-          text = "Select Portion",
+          text = stringResource(R.string.food_detail_select_portion),
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
           color = CleanOnSurface
@@ -386,7 +421,7 @@ fun FoodDetailScreen(
         ) {
           Column(modifier = Modifier.padding(16.dp)) {
             Text(
-              text = "Nutritional Breakdown (${selectedPortion.name})",
+              text = stringResource(R.string.food_detail_nutritional_breakdown, selectedPortion.name),
               style = MaterialTheme.typography.titleSmall,
               fontWeight = FontWeight.Bold,
               color = CleanOnSurface
@@ -397,10 +432,22 @@ fun FoodDetailScreen(
               modifier = Modifier.fillMaxWidth(),
               horizontalArrangement = Arrangement.SpaceBetween
             ) {
-              NutrientStat("Calories", "${selectedPortion.calories} kcal")
-              NutrientStat("Carbs", "${selectedPortion.carbs}g")
-              NutrientStat("Protein", "${selectedPortion.protein}g")
-              NutrientStat("Fat", "${selectedPortion.fat}g")
+              NutrientStat(
+                stringResource(R.string.food_detail_calories),
+                stringResource(R.string.food_detail_calories_value, selectedPortion.calories)
+              )
+              NutrientStat(
+                stringResource(R.string.food_detail_carbs),
+                stringResource(R.string.food_detail_carbs_value, selectedPortion.carbs)
+              )
+              NutrientStat(
+                stringResource(R.string.food_detail_protein),
+                stringResource(R.string.food_detail_protein_value, selectedPortion.protein)
+              )
+              NutrientStat(
+                stringResource(R.string.food_detail_fat),
+                stringResource(R.string.food_detail_fat_value, selectedPortion.fat)
+              )
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -409,10 +456,22 @@ fun FoodDetailScreen(
               modifier = Modifier.fillMaxWidth(),
               horizontalArrangement = Arrangement.SpaceBetween
             ) {
-              NutrientStat("Fiber", "${selectedPortion.fiber}g")
-              NutrientStat("Sugar", "${selectedPortion.sugar}g")
-              NutrientStat("Sodium", "${selectedPortion.sodium.toInt()}mg")
-              NutrientStat("Multiplier", "${selectedPortion.multiplier}x")
+              NutrientStat(
+                stringResource(R.string.food_detail_fiber),
+                stringResource(R.string.food_detail_fiber_value, selectedPortion.fiber)
+              )
+              NutrientStat(
+                stringResource(R.string.food_detail_sugar),
+                stringResource(R.string.food_detail_sugar_value, selectedPortion.sugar)
+              )
+              NutrientStat(
+                stringResource(R.string.food_detail_sodium),
+                stringResource(R.string.food_detail_sodium_value, selectedPortion.sodium.toInt())
+              )
+              NutrientStat(
+                stringResource(R.string.food_detail_servings),
+                stringResource(R.string.food_detail_multiplier_value, selectedPortion.multiplier)
+              )
             }
           }
         }
@@ -421,7 +480,7 @@ fun FoodDetailScreen(
       // Meal Type Selector
       item {
         Text(
-          text = "Meal Type",
+          text = stringResource(R.string.food_detail_meal_type),
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
           color = CleanOnSurface
@@ -436,7 +495,7 @@ fun FoodDetailScreen(
               onClick = { viewModel.setSelectedMealType(meal) },
               label = {
                 Text(
-                  text = meal,
+                  text = mealLabels[meal] ?: meal,
                   fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                 )
               },
@@ -462,7 +521,7 @@ fun FoodDetailScreen(
       // Log Date Selector (Backfill support)
       item {
         Text(
-          text = "Log Date",
+          text = stringResource(R.string.food_detail_log_date),
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
           color = CleanOnSurface
@@ -533,7 +592,12 @@ private fun PortionSelectCard(
           color = CleanOnSurface
         )
         Text(
-          text = "${portion.calories} kcal • ${portion.protein}g protein • ${portion.fiber}g fiber",
+          text = stringResource(
+            R.string.food_detail_portion_subtitle,
+            portion.calories,
+            portion.protein,
+            portion.fiber
+          ),
           style = MaterialTheme.typography.bodySmall,
           color = CleanOnSurfaceVariant
         )

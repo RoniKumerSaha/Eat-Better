@@ -317,6 +317,21 @@ class EatBetterViewModel(application: Application) : AndroidViewModel(applicatio
     }
   }
 
+  /**
+   * Wipe all logs/streaks/badges/favorites and send the user back to
+   * onboarding. Used by the Settings → "Clear My Data" flow.
+   */
+  fun clearAllUserData() {
+    viewModelScope.launch {
+      repository.clearAllUserData()
+      _selectedFood.value = null
+      _selectedPortion.value = null
+      // Reset to "home" — the UiState derivation will then route to "onboarding"
+      // because userSettings.onboardingCompleted is now false.
+      _currentScreen.value = "home"
+    }
+  }
+
   fun updateEntryPortion(entry: FoodEntryEntity, newPortion: PortionOption) {
     viewModelScope.launch {
       val updated = entry.copy(

@@ -27,4 +27,7 @@ interface AchievementDao {
 
   @Query("SELECT COUNT(*) FROM achievements WHERE isUnlocked = 1")
   fun getUnlockedCount(): Flow<Int>
+
+  @Query("DELETE FROM achievements")
+  suspend fun clearAllAchievements()
 }

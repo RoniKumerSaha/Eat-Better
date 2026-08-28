@@ -4,10 +4,13 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.Eco
@@ -31,15 +34,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.R
 import com.example.ui.components.BadgeDetailModal
 import com.example.ui.components.ShareCardDialog
 import com.example.ui.screens.AchievementsScreen
@@ -56,19 +62,20 @@ import com.example.ui.theme.CleanOnSurfaceVariant
 import com.example.ui.theme.CleanPillAccent
 import com.example.ui.theme.CleanPrimary
 import com.example.ui.theme.CleanSurface
+import com.example.ui.theme.PremiumShadow
 import com.example.ui.viewmodel.EatBetterViewModel
 
 enum class NavigationTab(
   val route: String,
-  val title: String,
+  val titleRes: Int,
   val selectedIcon: ImageVector,
   val unselectedIcon: ImageVector
 ) {
-  HOME("home", "Home", Icons.Filled.Home, Icons.Outlined.Home),
-  FOODS("foods", "Library", Icons.Filled.RestaurantMenu, Icons.Outlined.RestaurantMenu),
-  PROGRESS("progress", "Progress", Icons.Filled.AutoGraph, Icons.Outlined.AutoGraph),
-  BADGES("achievements", "Badges", Icons.Filled.WorkspacePremium, Icons.Outlined.WorkspacePremium),
-  SETTINGS("settings", "Settings", Icons.Filled.Settings, Icons.Filled.Settings)
+  HOME("home", R.string.nav_home, Icons.Filled.Home, Icons.Outlined.Home),
+  FOODS("foods", R.string.nav_library, Icons.Filled.RestaurantMenu, Icons.Outlined.RestaurantMenu),
+  PROGRESS("progress", R.string.nav_progress, Icons.Filled.AutoGraph, Icons.Outlined.AutoGraph),
+  BADGES("achievements", R.string.nav_badges, Icons.Filled.WorkspacePremium, Icons.Outlined.WorkspacePremium),
+  SETTINGS("settings", R.string.nav_settings, Icons.Filled.Settings, Icons.Filled.Settings)
 }
 
 @Composable
@@ -125,20 +132,26 @@ fun EatBetterApp(
       // Main App Shell with Bottom Navigation Bar
       Scaffold(
         bottomBar = {
-          NavigationBar(
-            containerColor = CleanSurface,
-            tonalElevation = 0.dp,
+          androidx.compose.foundation.layout.Box(
             modifier = Modifier
+              .fillMaxWidth()
+              .background(CleanSurface)
               .drawBehind {
                 drawLine(
-                  color = CleanBorder,
+                  color = CleanBorder.copy(alpha = 0.5f),
                   start = Offset(0f, 0f),
                   end = Offset(size.width, 0f),
-                  strokeWidth = 1.dp.toPx()
+                  strokeWidth = 0.5.dp.toPx()
                 )
               }
-              .testTag("main_bottom_nav_bar")
           ) {
+            NavigationBar(
+              containerColor = Color.Transparent,
+              tonalElevation = 0.dp,
+              modifier = Modifier
+                .fillMaxWidth()
+                .testTag("main_bottom_nav_bar")
+            ) {
             val tabs = listOf(
               NavigationTab.HOME,
               NavigationTab.FOODS,
@@ -155,13 +168,13 @@ fun EatBetterApp(
                 icon = {
                   Icon(
                     imageVector = if (isSelected) tab.selectedIcon else tab.unselectedIcon,
-                    contentDescription = tab.title,
+                    contentDescription = stringResource(tab.titleRes),
                     modifier = Modifier.size(22.dp)
                   )
                 },
                 label = {
                   Text(
-                    text = tab.title,
+                    text = stringResource(tab.titleRes),
                     style = MaterialTheme.typography.labelSmall.copy(
                       fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                       fontSize = 11.sp
@@ -178,7 +191,8 @@ fun EatBetterApp(
               )
             }
           }
-        },
+          }
+          },
         containerColor = CleanBackground
       ) { innerPadding ->
 

@@ -19,9 +19,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -30,6 +35,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -37,6 +43,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -50,11 +57,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.BuildConfig
+import com.example.R
 import com.example.data.local.entity.UserSettingsEntity
+import com.example.ui.legal.LegalLinks
+import com.example.ui.screens.LegalContentScreen
 import com.example.ui.theme.CleanBackground
 import com.example.ui.theme.CleanBorder
 import com.example.ui.theme.CleanOnSurface
@@ -75,6 +89,8 @@ fun SettingsScreen(
   onNavigateBack: () -> Unit
 ) {
   val settings = uiState.userSettings
+  val context = LocalContext.current
+
   var displayName by remember(settings.displayName) { mutableStateOf(settings.displayName) }
   var breakfastEnabled by remember(settings.breakfastEnabled) { mutableStateOf(settings.breakfastEnabled) }
   var lunchEnabled by remember(settings.lunchEnabled) { mutableStateOf(settings.lunchEnabled) }
@@ -86,6 +102,11 @@ fun SettingsScreen(
     mutableStateListOf<String>().apply { addAll(list) }
   }
 
+  var showAboutDialog by remember { mutableStateOf(false) }
+  var showMedicalDialog by remember { mutableStateOf(false) }
+  var showResetConfirm by remember { mutableStateOf(false) }
+  var showLegalAsset by remember { mutableStateOf<String?>(null) }
+
   Scaffold(
     topBar = {
       TopAppBar(
@@ -94,7 +115,7 @@ fun SettingsScreen(
         ),
         title = {
           Text(
-            text = "Settings & Privacy",
+            text = stringResource(R.string.settings_title),
             style = MaterialTheme.typography.titleLarge.copy(
               fontWeight = FontWeight.SemiBold,
               letterSpacing = (-0.5).sp
@@ -106,7 +127,7 @@ fun SettingsScreen(
           IconButton(onClick = onNavigateBack) {
             Icon(
               imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-              contentDescription = "Back",
+              contentDescription = stringResource(R.string.action_back),
               tint = CleanOnSurface
             )
           }
@@ -165,7 +186,7 @@ fun SettingsScreen(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-              text = "Save Preferences",
+              text = stringResource(R.string.action_save_preferences),
               style = MaterialTheme.typography.labelLarge.copy(fontSize = 15.sp),
               fontWeight = FontWeight.Bold,
               color = Color.White
@@ -199,7 +220,7 @@ fun SettingsScreen(
               Icon(Icons.Default.Person, contentDescription = null, tint = CleanPrimary)
               Spacer(modifier = Modifier.width(8.dp))
               Text(
-                text = "Profile Name",
+                text = stringResource(R.string.settings_profile_name),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = CleanOnSurface
@@ -211,7 +232,7 @@ fun SettingsScreen(
             OutlinedTextField(
               value = displayName,
               onValueChange = { displayName = it },
-              placeholder = { Text("e.g. Rahim", color = CleanSubtleText) },
+              placeholder = { Text(stringResource(R.string.settings_profile_name_placeholder), color = CleanSubtleText) },
               singleLine = true,
               modifier = Modifier
                 .fillMaxWidth()
@@ -245,7 +266,7 @@ fun SettingsScreen(
         ) {
           Column(modifier = Modifier.padding(20.dp)) {
             Text(
-              text = "Personal Wellness Goals",
+              text = stringResource(R.string.settings_goals_section),
               style = MaterialTheme.typography.titleMedium,
               fontWeight = FontWeight.Bold,
               color = CleanOnSurface
@@ -253,10 +274,10 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             val allGoals = listOf(
-              "Eat healthier overall",
-              "Manage weight gently",
-              "Improve nutrient variety & fiber",
-              "Build positive mindful eating habits"
+              stringResource(R.string.settings_goal_eat_healthier),
+              stringResource(R.string.settings_goal_manage_weight),
+              stringResource(R.string.settings_goal_improve_variety),
+              stringResource(R.string.settings_goal_mindful_habits)
             )
 
             allGoals.forEach { goal ->
@@ -307,7 +328,7 @@ fun SettingsScreen(
               Icon(Icons.Default.Restaurant, contentDescription = null, tint = CleanPrimary)
               Spacer(modifier = Modifier.width(8.dp))
               Text(
-                text = "Active Meal Schedules",
+                text = stringResource(R.string.settings_meal_schedules),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = CleanOnSurface
@@ -316,10 +337,10 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            MealToggleRow("Breakfast", breakfastEnabled) { breakfastEnabled = it }
-            MealToggleRow("Lunch", lunchEnabled) { lunchEnabled = it }
-            MealToggleRow("Dinner", dinnerEnabled) { dinnerEnabled = it }
-            MealToggleRow("Snacks", snacksEnabled) { snacksEnabled = it }
+            MealToggleRow(stringResource(R.string.settings_meal_breakfast), breakfastEnabled) { breakfastEnabled = it }
+            MealToggleRow(stringResource(R.string.settings_meal_lunch), lunchEnabled) { lunchEnabled = it }
+            MealToggleRow(stringResource(R.string.settings_meal_dinner), dinnerEnabled) { dinnerEnabled = it }
+            MealToggleRow(stringResource(R.string.settings_meal_snacks), snacksEnabled) { snacksEnabled = it }
           }
         }
       }
@@ -338,7 +359,7 @@ fun SettingsScreen(
               Icon(Icons.Default.Security, contentDescription = null, tint = CleanPrimary)
               Spacer(modifier = Modifier.width(8.dp))
               Text(
-                text = "100% Offline & Private",
+                text = stringResource(R.string.settings_offline_title),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = CleanOnSurface
@@ -348,7 +369,7 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-              text = "Eat Better operates entirely on your device. Your food logs, nutrition scores, and daily milestones are saved in a local SQLite Room database and are never uploaded to any remote server.",
+              text = stringResource(R.string.settings_offline_body),
               style = MaterialTheme.typography.bodySmall,
               color = CleanOnSurfaceVariant,
               lineHeight = 18.sp
@@ -356,7 +377,184 @@ fun SettingsScreen(
           }
         }
       }
+
+      // Privacy & About Card
+      item {
+        Surface(
+          shape = RoundedCornerShape(24.dp),
+          color = CleanSurface,
+          modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, CleanBorder, RoundedCornerShape(24.dp))
+        ) {
+          Column(modifier = Modifier.padding(20.dp)) {
+            Text(
+              text = stringResource(R.string.settings_legal_title),
+              style = MaterialTheme.typography.titleMedium,
+              fontWeight = FontWeight.Bold,
+              color = CleanOnSurface
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            LegalLinkRow(
+              icon = Icons.Default.Info,
+              label = stringResource(R.string.settings_legal_about),
+              onClick = { showAboutDialog = true }
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            LegalLinkRow(
+              icon = Icons.Default.MedicalServices,
+              label = stringResource(R.string.settings_legal_medical_disclaimer),
+              onClick = { showMedicalDialog = true }
+            )
+          }
+        }
+      }
+
+      // Reset All Data Card
+      item {
+        Surface(
+          shape = RoundedCornerShape(24.dp),
+          color = CleanSurface,
+          modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, CleanBorder, RoundedCornerShape(24.dp))
+        ) {
+          Column(modifier = Modifier.padding(20.dp)) {
+            Text(
+              text = stringResource(R.string.settings_reset_card_title),
+              style = MaterialTheme.typography.titleMedium,
+              fontWeight = FontWeight.Bold,
+              color = CleanOnSurface
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+              text = stringResource(R.string.settings_reset_card_body),
+              style = MaterialTheme.typography.bodySmall,
+              color = CleanOnSurfaceVariant,
+              lineHeight = 18.sp
+            )
+            Spacer(modifier = Modifier.height(14.dp))
+            OutlinedButton(
+              onClick = { showResetConfirm = true },
+              modifier = Modifier.fillMaxWidth(),
+              shape = RoundedCornerShape(14.dp),
+              colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = Color(0xFFB3261E) // destructive/error red
+              ),
+              border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB3261E))
+            ) {
+              Text(
+                text = stringResource(R.string.settings_reset_card_button),
+                fontWeight = FontWeight.Bold
+              )
+            }
+          }
+        }
+      }
     }
+  }
+
+  if (showResetConfirm) {
+    AlertDialog(
+      onDismissRequest = { showResetConfirm = false },
+      title = { Text(stringResource(R.string.settings_reset_confirm_title)) },
+      text = {
+        Text(
+          text = stringResource(R.string.settings_reset_confirm_body),
+          style = MaterialTheme.typography.bodyMedium,
+          color = CleanOnSurface
+        )
+      },
+      confirmButton = {
+        TextButton(onClick = {
+          showResetConfirm = false
+          viewModel.clearAllUserData()
+        }) {
+          Text(
+            text = stringResource(R.string.settings_reset_confirm_action),
+            color = Color(0xFFB3261E),
+            fontWeight = FontWeight.Bold
+          )
+        }
+      },
+      dismissButton = {
+        TextButton(onClick = { showResetConfirm = false }) {
+          Text(stringResource(R.string.settings_reset_confirm_cancel))
+        }
+      }
+    )
+  }
+
+  if (showAboutDialog) {
+    AlertDialog(
+      onDismissRequest = { showAboutDialog = false },
+      title = { Text(stringResource(R.string.settings_about_dialog_title)) },
+      text = {
+        Column {
+          Text(
+            text = stringResource(R.string.settings_about_version, BuildConfig.VERSION_NAME),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+            color = CleanPrimary
+          )
+          Spacer(modifier = Modifier.height(8.dp))
+          Text(
+            text = stringResource(R.string.settings_about_body),
+            style = MaterialTheme.typography.bodyMedium,
+            color = CleanOnSurface
+          )
+          Spacer(modifier = Modifier.height(12.dp))
+          Text(
+            text = stringResource(R.string.settings_contact_support),
+            style = MaterialTheme.typography.bodySmall,
+            color = CleanOnSurfaceVariant
+          )
+        }
+      },
+      confirmButton = {
+        TextButton(onClick = { showAboutDialog = false }) {
+          Text(stringResource(R.string.action_close))
+        }
+      }
+    )
+  }
+
+  if (showMedicalDialog) {
+    AlertDialog(
+      onDismissRequest = { showMedicalDialog = false },
+      title = { Text(stringResource(R.string.settings_medical_disclaimer_title)) },
+      text = {
+        Text(
+          text = LegalLinks.MEDICAL_ADVICE_DISCLAIMER,
+          style = MaterialTheme.typography.bodyMedium,
+          color = CleanOnSurface,
+          lineHeight = 20.sp
+        )
+      },
+      confirmButton = {
+        TextButton(onClick = { showMedicalDialog = false }) {
+          Text(stringResource(R.string.action_close))
+        }
+      }
+    )
+  }
+
+  val legalAsset = showLegalAsset
+  if (legalAsset != null) {
+    val (assetFile, screenTitle) = when (legalAsset) {
+      "privacy_policy" -> "legal/privacy_policy.md" to stringResource(R.string.settings_legal_privacy_policy)
+      "terms_of_service" -> "legal/terms_of_service.md" to stringResource(R.string.settings_legal_terms)
+      else -> "legal/privacy_policy.md" to stringResource(R.string.settings_legal_privacy_policy)
+    }
+    LegalContentScreen(
+      assetPath = assetFile,
+      title = screenTitle,
+      onNavigateBack = { showLegalAsset = null }
+    )
   }
 }
 
@@ -390,3 +588,37 @@ private fun MealToggleRow(
   }
 }
 
+@Composable
+private fun LegalLinkRow(
+  icon: ImageVector,
+  label: String,
+  onClick: () -> Unit
+) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .clickable(onClick = onClick)
+      .padding(vertical = 10.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Icon(
+      imageVector = icon,
+      contentDescription = null,
+      tint = CleanPrimary,
+      modifier = Modifier.size(20.dp)
+    )
+    Spacer(modifier = Modifier.width(12.dp))
+    Text(
+      text = label,
+      style = MaterialTheme.typography.bodyMedium,
+      color = CleanOnSurface,
+      modifier = Modifier.weight(1f)
+    )
+    Icon(
+      imageVector = Icons.Default.ChevronRight,
+      contentDescription = null,
+      tint = CleanOnSurfaceVariant,
+      modifier = Modifier.size(18.dp)
+    )
+  }
+}

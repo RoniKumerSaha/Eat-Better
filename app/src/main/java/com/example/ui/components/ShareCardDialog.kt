@@ -42,11 +42,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.FileProvider
+import com.example.R
 import com.example.ui.theme.PrimaryFixed
 import com.example.ui.theme.SagePrimary
 import com.example.ui.theme.SecondaryContainer
@@ -84,12 +86,12 @@ fun ShareCardDialog(
           verticalAlignment = Alignment.CenterVertically
         ) {
           Text(
-            text = "Share Score Card",
+            text = stringResource(R.string.share_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
           )
           IconButton(onClick = onDismiss) {
-            Icon(Icons.Default.Close, contentDescription = "Close")
+            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.share_close_content_description))
           }
         }
 
@@ -128,7 +130,7 @@ fun ShareCardDialog(
               )
               Spacer(modifier = Modifier.width(6.dp))
               Text(
-                text = "Eat Better",
+                text = stringResource(R.string.share_app_brand),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = SagePrimary
@@ -138,7 +140,7 @@ fun ShareCardDialog(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-              text = if (displayName.isNotBlank()) "$displayName's Daily Nutrition" else "My Daily Nutrition",
+              text = if (displayName.isNotBlank()) stringResource(R.string.share_name_daily_nutrition, displayName) else stringResource(R.string.share_my_daily_nutrition),
               style = MaterialTheme.typography.bodySmall,
               color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -156,7 +158,7 @@ fun ShareCardDialog(
             ) {
               Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                  text = "$score",
+                  text = stringResource(R.string.share_score_value, score),
                   style = MaterialTheme.typography.displayLarge.copy(
                     fontSize = 38.sp,
                     fontWeight = FontWeight.Bold
@@ -164,7 +166,7 @@ fun ShareCardDialog(
                   color = SagePrimary
                 )
                 Text(
-                  text = "/100",
+                  text = stringResource(R.string.progress_out_of_hundred),
                   style = MaterialTheme.typography.labelSmall,
                   color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -187,13 +189,13 @@ fun ShareCardDialog(
                     modifier = Modifier.size(18.dp)
                   )
                   Text(
-                    text = " $streakDays Days",
+                    text = stringResource(R.string.share_streak_days_value, streakDays),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                   )
                 }
                 Text(
-                  text = "Mindful Streak",
+                  text = stringResource(R.string.share_mindful_streak),
                   style = MaterialTheme.typography.labelSmall,
                   color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -208,13 +210,13 @@ fun ShareCardDialog(
                     modifier = Modifier.size(18.dp)
                   )
                   Text(
-                    text = " $nutritiousPercentage%",
+                    text = stringResource(R.string.share_nutritious_percent_value, nutritiousPercentage),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                   )
                 }
                 Text(
-                  text = "Nutritious Food",
+                  text = stringResource(R.string.share_nutritious_food),
                   style = MaterialTheme.typography.labelSmall,
                   color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -224,7 +226,7 @@ fun ShareCardDialog(
             Spacer(modifier = Modifier.height(14.dp))
 
             Text(
-              text = "Small choices • Lasting wellness",
+              text = stringResource(R.string.share_tagline),
               style = MaterialTheme.typography.bodySmall,
               color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )
@@ -247,13 +249,17 @@ fun ShareCardDialog(
         ) {
           Icon(Icons.Default.Share, contentDescription = null)
           Spacer(modifier = Modifier.width(8.dp))
-          Text("Share with Friends & Family", style = MaterialTheme.typography.labelLarge)
+          Text(stringResource(R.string.share_with_friends), style = MaterialTheme.typography.labelLarge)
         }
       }
     }
   }
 }
 
+// Shares an Eat Better score card via Android's share sheet.
+// Note: the body text below is inter-app share text (not an in-app UI label),
+// so it is intentionally written in English here. To localize the share body,
+// read these strings from a Context using getString() and pass them in.
 private fun shareScoreCard(
   context: Context,
   displayName: String,

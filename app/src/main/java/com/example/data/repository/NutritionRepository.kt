@@ -106,6 +106,20 @@ class NutritionRepository(private val db: AppDatabase) {
     settingsDao.insertOrUpdate(settings)
   }
 
+  /**
+   * Wipe all user-generated data and reset onboarding so the user starts
+   * fresh. Keeps the seeded foods and default achievements on disk.
+   */
+  suspend fun clearAllUserData() = withContext(Dispatchers.IO) {
+    entryDao.clearAllEntries()
+    recordDao.clearAllRecords()
+    favDao.clearAllFavorites()
+    achievementDao.clearAllAchievements()
+    settingsDao.clearAllSettings()
+    // Re-seed default achievements so the Badges screen still has locked entries.
+    achievementDao.insertAchievements(DefaultAchievements.list)
+  }
+
   fun getAllAchievements(): Flow<List<AchievementEntity>> {
     return achievementDao.getAllAchievements()
   }
@@ -153,11 +167,13 @@ class NutritionRepository(private val db: AppDatabase) {
   suspend fun deleteEntry(entry: FoodEntryEntity) = withContext(Dispatchers.IO) {
     entryDao.deleteEntry(entry)
     recalculateDailyScore(entry.date)
+    checkAndUpdateAchievements()
   }
 
   suspend fun deleteEntryById(id: Long, date: String) = withContext(Dispatchers.IO) {
     entryDao.deleteEntryById(id)
     recalculateDailyScore(date)
+    checkAndUpdateAchievements()
   }
 
   suspend fun toggleMealSkipped(date: String, mealType: String) = withContext(Dispatchers.IO) {
@@ -174,6 +190,7 @@ class NutritionRepository(private val db: AppDatabase) {
     val updated = record.copy(skippedMeals = currentSkipped.joinToString(","))
     recordDao.upsertDailyRecord(updated)
     recalculateDailyScore(date)
+    checkAndUpdateAchievements()
   }
 
   suspend fun setChallengeCompleted(date: String, completed: Boolean) = withContext(Dispatchers.IO) {
@@ -693,13 +710,10 @@ class NutritionRepository(private val db: AppDatabase) {
       recalculateDailyScore(yesterdayStr)
       recalculateDailyScore(todayStr)
 
-      // Initial unlocked achievements
-      unlockAchievement("first_log", 1)
-      unlockAchievement("consistent_3", 3)
-      unlockAchievement("consistent_7", 7)
-      unlockAchievement("balanced_score_80", 1)
-      unlockAchievement("hydrated_hero", 5)
-      unlockAchievement("desi_wholesome", 10)
+      // Evaluate achievements against the seeded data so badges unlock correctly
+      // on first launch (previously hardcoded unlock calls skipped the engine and
+      // left `currentProgress = 0` on every badge).
+      checkAndUpdateAchievements()
     }
   }
 

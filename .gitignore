@@ -16,3 +16,6 @@
 local.properties
 .env
 debug.keystore
+/.idea
+*.png
+/test_screenshots

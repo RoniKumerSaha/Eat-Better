@@ -32,11 +32,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.R
 import com.example.data.local.entity.AchievementEntity
 import com.example.ui.theme.PrimaryContainer
 import com.example.ui.theme.SagePrimary
@@ -111,7 +113,7 @@ fun BadgeDetailModal(
             .padding(horizontal = 16.dp, vertical = 6.dp)
         ) {
           Text(
-            text = if (achievement.isUnlocked) "✓ Unlocked" else "In Progress (${achievement.currentProgress}/${achievement.targetCount})",
+            text = if (achievement.isUnlocked) stringResource(R.string.achievements_unlocked) else stringResource(R.string.achievements_in_progress, achievement.currentProgress, achievement.targetCount),
             style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
             color = if (achievement.isUnlocked) SagePrimary else MaterialTheme.colorScheme.onSurfaceVariant
           )
@@ -128,7 +130,7 @@ fun BadgeDetailModal(
           colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
         ) {
           Text(
-            text = "Close",
+            text = stringResource(R.string.action_close),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurface
           )

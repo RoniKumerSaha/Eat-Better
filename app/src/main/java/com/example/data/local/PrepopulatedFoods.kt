@@ -1360,6 +1360,525 @@ object PrepopulatedFoods {
         portion("can_500", "1 Large Can (500ml)", 1.8f, 230, 56.0f, 0.0f, 0.0f, 0.0f, 54.0f, 180f)
       ),
       iconSymbol = "liquor"
+    ),
+
+    // ==========================================
+    // --- BANGLADESHI MEALS (MUTTON, FISH, VEG) -
+    // ==========================================
+    FoodEntity(
+      id = "mutton_curry_bangla",
+      name = "Mutton Curry (Mangshor Jhol)",
+      bengaliName = "মাংসের ঝোল",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 6,
+      educationalText = "Slow simmered bone-in mutton in onion-garlic-ginger-yogurt masala. Rich in iron, B12, zinc; enjoy with measured portions.",
+      scoreExplanation = "• Excellent bioavailable heme iron and B12\n• Higher in saturated fat than chicken/fish\n• Best paired with salad and smaller rice portion",
+      searchAliases = "mutton,mangsho,mutton curry,mangshor jhol,goat,meat,curry,rag",
+      portionsJson = portions(
+        portion("small_bowl", "Small Bowl (150g - 2-3 pcs)", 0.7f, 280, 5.0f, 22.0f, 18.0f, 0.6f, 1.0f, 380f),
+        portion("regular_bowl", "Regular Bowl (250g - 4-5 pcs)", 1.0f, 460, 8.0f, 36.0f, 30.0f, 1.0f, 1.5f, 620f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "mutton_rezala",
+      name = "Mutton Rezala (Mangsho Rezala)",
+      bengaliName = "মাংসের রেজালা",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 5,
+      educationalText = "Mughlai-style creamy mutton with cashew-yogurt gravy, ghee, and aromatic spices. Rich, celebratory, and high in fats.",
+      scoreExplanation = "• Cashews + ghee add richness but also calories\n• Good protein content from mutton\n• Best reserved for special occasions in moderate portions",
+      searchAliases = "rezala,mangsho rezala,mutton rezala,creamy mutton,mughlai",
+      portionsJson = portions(
+        portion("small_bowl", "Small Bowl (180g)", 1.0f, 420, 8.0f, 24.0f, 32.0f, 1.0f, 3.0f, 520f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "rui_macher_jhol",
+      name = "Rohu Fish Curry (Rui Macher Jhol)",
+      bengaliName = "রুই মাছের ঝোল",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 9,
+      educationalText = "Light, turmeric-onion based curry with freshwater rohu fillet — Bangladesh's everyday fish. Lean protein with omega-3s and iodine.",
+      scoreExplanation = "• High-quality lean protein and omega-3\n• Turmeric + minimal oil = gentle on digestion\n• Excellent calcium from soft bones when eaten whole",
+      searchAliases = "rui,rohu,fish curry,macher jhol,fish,carp,mach",
+      portionsJson = portions(
+        portion("regular_piece", "1 Piece + Gravy (180g)", 1.0f, 220, 4.0f, 26.0f, 11.0f, 0.8f, 1.5f, 280f),
+        portion("large_piece", "2 Pieces + Gravy (300g)", 1.5f, 360, 6.5f, 42.0f, 18.0f, 1.2f, 2.5f, 460f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "ilish_macher_jhol",
+      name = "Hilsa Fish Curry (Ilish Macher Jhol)",
+      bengaliName = "ইলিশ মাছের ঝোল",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 9,
+      educationalText = "The crown jewel of Bengali cuisine — hilsa simmered in mustard-turmeric gravy. Exceptionally rich in omega-3 and vitamin D.",
+      scoreExplanation = "• Among the richest fish in omega-3 fatty acids\n• Mustard oil provides heart-healthy fats\n• Pairs perfectly with steamed white rice",
+      searchAliases = "ilish,hilsa,ilish jhol,fish curry,pabda,chandana,fish",
+      portionsJson = portions(
+        portion("regular_piece", "1 Piece + Gravy (180g)", 1.0f, 320, 4.0f, 28.0f, 22.0f, 0.8f, 1.5f, 320f),
+        portion("large_piece", "2 Pieces + Gravy (300g)", 1.5f, 530, 6.5f, 46.0f, 36.0f, 1.2f, 2.5f, 520f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "pangash_mach_vaja",
+      name = "Pangash Fish Fry (Pangash Mach Vaja)",
+      bengaliName = "পাঙ্গাশ মাছ ভাজা",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 6,
+      educationalText = "Crispy shallow-fried pangash fillet marinated in turmeric and chili. Tasty but oil content reduces the score.",
+      scoreExplanation = "• Good lean protein from the fish\n• Frying in oil adds saturated fat calories\n• Best paired with salad and rice in small portions",
+      searchAliases = "pangash,pangas,fish fry,mach vaja,fried fish,fish",
+      portionsJson = portions(
+        portion("regular_piece", "1 Piece (120g)", 1.0f, 240, 4.0f, 22.0f, 15.0f, 0.5f, 0.5f, 280f),
+        portion("large_portion", "2 Pieces (200g)", 1.6f, 400, 6.5f, 36.0f, 25.0f, 0.8f, 0.8f, 460f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "chingri_malai_curry",
+      name = "Prawn Malai Curry (Chingri Malai Curry)",
+      bengaliName = "চিংড়ি মালাই কারি",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 7,
+      educationalText = "Tiger prawns simmered in coconut-milk gravy with delicate Bengali spices. Sweet, aromatic, and protein-rich.",
+      scoreExplanation = "• Excellent lean protein with minerals like zinc and selenium\n• Coconut milk adds richness and MCT fats\n• Mild calorie density — pair with plain rice",
+      searchAliases = "chingri,prawn,shrimp,chingri malai,prawn curry,malai curry,dao Chingri",
+      portionsJson = portions(
+        portion("regular_bowl", "1 Bowl (180g)", 1.0f, 290, 8.0f, 24.0f, 18.0f, 1.5f, 4.0f, 480f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "dim_bhaji",
+      name = "Egg Bhurji with Onion (Dim Bhaji)",
+      bengaliName = "ডিম ভাজি",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 8,
+      educationalText = "Quick scrambled eggs with onion, green chili, and a touch of mustard oil. Everyday Bangladeshi protein powerhouse.",
+      scoreExplanation = "• Complete protein with all essential amino acids\n• Contains choline for brain health\n• Minimal oil = gentle nutrition",
+      searchAliases = "dim bhaji,egg bhurji,scrambled egg,anda bhurji,dim,egg,anda",
+      portionsJson = portions(
+        portion("one_egg", "1 Egg Bhurji (60g)", 0.6f, 100, 1.5f, 7.5f, 7.5f, 0.3f, 0.5f, 110f),
+        portion("two_egg", "2 Egg Bhurji (120g)", 1.0f, 200, 3.0f, 15.0f, 15.0f, 0.6f, 1.0f, 220f),
+        portion("three_egg", "3 Egg Bhurji (180g)", 1.4f, 300, 4.5f, 22.5f, 22.5f, 0.9f, 1.5f, 330f)
+      ),
+      iconSymbol = "egg"
+    ),
+    FoodEntity(
+      id = "half_boiled_egg",
+      name = "Half-Boiled Egg (Sada Dim)",
+      bengaliName = "সেদ্ধ ডিম",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 9,
+      educationalText = "Soft-boiled egg enjoyed with toast or paratha. The simplest, cleanest protein snack.",
+      scoreExplanation = "• Whole-food protein with bioavailable nutrients\n• Contains lutein for eye health\n• Zero added ingredients",
+      searchAliases = "boiled egg,sada dim,half boiled egg,anda,dim,egg",
+      portionsJson = portions(
+        portion("one", "1 Egg", 1.0f, 78, 0.6f, 6.3f, 5.3f, 0.0f, 0.6f, 62f),
+        portion("two", "2 Eggs", 1.8f, 156, 1.2f, 12.6f, 10.6f, 0.0f, 1.2f, 124f)
+      ),
+      iconSymbol = "egg"
+    ),
+    FoodEntity(
+      id = "beguni",
+      name = "Crispy Eggplant Fritter (Beguni)",
+      bengaliName = "বেগুনি",
+      categoryId = "vegetables",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Thin eggplant slices dipped in chickpea-batter and deep-fried — a beloved street snack. Tasty but oil-heavy.",
+      scoreExplanation = "• Some fiber and antioxidants from eggplant\n• Deep frying adds saturated fat and calories\n• Best enjoyed occasionally and not as a daily side",
+      searchAliases = "beguni,eggplant fritter,beguni bangla,fritter,deep fried,bajji",
+      portionsJson = portions(
+        portion("regular", "2 Pieces (60g)", 1.0f, 130, 12.0f, 3.0f, 8.0f, 1.5f, 0.5f, 180f)
+      ),
+      iconSymbol = "eco"
+    ),
+    FoodEntity(
+      id = "piazu_or_peyaji",
+      name = "Onion Pakora (Peyaji / Piazu)",
+      bengaliName = "পেঁয়াজু",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 3,
+      educationalText = "Crispy onion fritters bound in spiced chickpea batter. Comforting during monsoon but high in frying oil.",
+      scoreExplanation = "• Onion provides some quercetin antioxidants\n• Deep-fried in oil — significant fat content\n• Best as an occasional treat",
+      searchAliases = "peyaji,piazu,onion pakora,onion fritter,bhajia,bondaa",
+      portionsJson = portions(
+        portion("regular", "4 Pieces (100g)", 1.0f, 290, 28.0f, 7.0f, 16.0f, 3.0f, 2.0f, 320f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "shingara_bangla",
+      name = "Bengali Shingara",
+      bengaliName = "সিঙ্গাড়া",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Flaky pastry filled with spiced cauliflower, peas, and potato. A beloved tea-time snack across Bangladesh.",
+      scoreExplanation = "• Filling veggies inside, but pastry is refined flour + oil\n• Deep-fried for crispness\n• Pair with chai, enjoy in moderation",
+      searchAliases = "shingara,samosa,singara,tea snack,cauliflower pastry",
+      portionsJson = portions(
+        portion("regular", "2 Pieces (100g)", 1.0f, 270, 30.0f, 5.0f, 14.0f, 2.5f, 1.5f, 360f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "fuchka",
+      name = "Pani Puri / Fuchka (Street Style)",
+      bengaliName = "ফুচকা",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Crispy hollow puris filled with tamarind water, spiced mashed potato, and chickpea. Tangy, fun, but a street-food indulgence.",
+      scoreExplanation = "• Spices and tamarind offer flavor variety\n• Fried shell + sugary tamarind water spike glucose\n• Occasional treat — hygiene matters",
+      searchAliases = "fuchka,pani puri,golgappa,phuchka,street food",
+      portionsJson = portions(
+        portion("regular", "6 Pieces (150g)", 1.0f, 230, 42.0f, 5.0f, 6.0f, 2.5f, 8.0f, 520f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "chotpoti",
+      name = "Chotpoti (Dhaka Street Chaat)",
+      bengaliName = "চটপটি",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 5,
+      educationalText = "Tangy chickpea curry with tamarind, onion, green chili, and boiled egg. A beloved afternoon chaat from Dhaka's streets.",
+      scoreExplanation = "• Plant protein and fiber from chickpeas\n• High sodium from street-side spice mix\n• Pair with a boiled egg for balanced macros",
+      searchAliases = "chotpoti,chaat,chickpea chaat,street food,dhaka chaat",
+      portionsJson = portions(
+        portion("regular", "1 Plate (250g)", 1.0f, 290, 38.0f, 13.0f, 9.0f, 8.0f, 6.0f, 780f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "dal_puri",
+      name = "Stuffed Dal Puri",
+      bengaliName = "ডাল পুরি",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Fried flatbread stuffed with spiced lentil paste. Comforting with a curry but high in oil.",
+      scoreExplanation = "• Lentil stuffing adds protein and fiber\n• Deep-fried dough adds refined carbs and fat\n• Best as an occasional festive treat",
+      searchAliases = "dal puri,dalpuri,stuffed bread,lentil puri,puri",
+      portionsJson = portions(
+        portion("regular", "2 Pieces (100g)", 1.0f, 320, 36.0f, 9.0f, 16.0f, 4.0f, 1.5f, 460f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "aloor_chop",
+      name = "Aloor Chop (Potato Cutlet)",
+      bengaliName = "আলুর চপ",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Spiced mashed potato patty dipped in batter and deep-fried. Tea-time classic across Bangladesh.",
+      scoreExplanation = "• Potato gives some potassium and fiber\n• Batter + frying adds significant calories\n• Occasional tea-time treat",
+      searchAliases = "aloo chop,alur chop,potato cutlet,potato fritter,aloo bonda",
+      portionsJson = portions(
+        portion("regular", "2 Pieces (100g)", 1.0f, 260, 30.0f, 4.5f, 13.0f, 2.0f, 1.0f, 380f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "begun_bhaja",
+      name = "Eggplant Fry (Begun Bhaja)",
+      bengaliName = "বেগুন ভাজা",
+      categoryId = "vegetables",
+      region = "Bangladesh",
+      baseScore = 7,
+      educationalText = "Thin eggplant slices pan-fried with turmeric and nigella seeds. A simple, low-effort Bengali side.",
+      scoreExplanation = "• Eggplant has anthocyanin antioxidants\n• Pan-frying uses less oil than deep-frying\n• Best enjoyed with rice and dal",
+      searchAliases = "begun bhaja,brinjal fry,eggplant,begun,bhaja",
+      portionsJson = portions(
+        portion("regular", "Regular Plate (100g)", 1.0f, 110, 9.0f, 2.0f, 7.5f, 3.5f, 1.5f, 90f)
+      ),
+      iconSymbol = "eco"
+    ),
+    FoodEntity(
+      id = "lao_bhorta",
+      name = "Bottle Gourd Mash (Lau Bhorta)",
+      bengaliName = "লাউ ভর্তা",
+      categoryId = "vegetables",
+      region = "Bangladesh",
+      baseScore = 8,
+      educationalText = "Roasted bottle gourd mashed with mustard oil, chili, and onion. Cooling, gentle side.",
+      scoreExplanation = "• Very high water content for hydration\n• Low calorie, gentle on the stomach\n• Small amount of mustard oil adds flavor without excess fat",
+      searchAliases = "lau bhorta,bottle gourd mash,lau,vorta,bhorta",
+      portionsJson = portions(
+        portion("regular", "Regular serving (80g)", 1.0f, 60, 5.0f, 1.5f, 3.5f, 2.0f, 1.0f, 90f)
+      ),
+      iconSymbol = "eco"
+    ),
+    FoodEntity(
+      id = "begun_bhorta",
+      name = "Roasted Eggplant Mash (Begun Bhorta)",
+      bengaliName = "বেগুন ভর্তা",
+      categoryId = "vegetables",
+      region = "Bangladesh",
+      baseScore = 8,
+      educationalText = "Fire-roasted eggplant mashed with mustard oil, onion, and chili. Smoky, traditional, and very Bangladeshi.",
+      scoreExplanation = "• Anthocyanins from eggplant skin\n• Minimal oil = low calorie\n• A flavor-packed side to plain rice",
+      searchAliases = "begun bhorta,baingan bharta,eggplant mash,bhorta,vorta",
+      portionsJson = portions(
+        portion("regular", "Regular serving (80g)", 1.0f, 80, 6.0f, 2.0f, 5.0f, 3.0f, 1.5f, 100f)
+      ),
+      iconSymbol = "eco"
+    ),
+    FoodEntity(
+      id = "shobji_vaja_mixed",
+      name = "Mixed Vegetable Fries (Shobji Vaja)",
+      bengaliName = "মিক্স শবজি ভাজা",
+      categoryId = "vegetables",
+      region = "Bangladesh",
+      baseScore = 5,
+      educationalText = "Seasonal vegetables — eggplant, potato, pumpkin, and okra — sliced and shallow-fried. A festive Bengali plate.",
+      scoreExplanation = "• Mixed veggies deliver fiber, vitamin A, and potassium\n• Frying adds oil — measure quantity\n• Best paired with rice and protein",
+      searchAliases = "shobji vaja,shobji bhaja,vegetable fry,mixed veg,vaja",
+      portionsJson = portions(
+        portion("regular", "Regular Plate (150g)", 1.0f, 200, 20.0f, 3.0f, 12.0f, 4.5f, 2.0f, 180f)
+      ),
+      iconSymbol = "eco"
+    ),
+    FoodEntity(
+      id = "dal_bhorta",
+      name = "Lentil Mash (Dal Bhorta)",
+      bengaliName = "ডাল ভর্তা",
+      categoryId = "meals",
+      region = "Bangladesh",
+      baseScore = 9,
+      educationalText = "Cooked lentils tempered and mashed with mustard oil, onion, chili. The protein-rich cornerstone of Bangladeshi meals.",
+      scoreExplanation = "• Plant protein + fiber\n• Minimal oil\n• Pairs with rice and vegetable sides",
+      searchAliases = "dal bhorta,dal mash,daal bhorta,bhorta,daal",
+      portionsJson = portions(
+        portion("regular", "Regular serving (100g)", 1.0f, 165, 18.0f, 9.0f, 7.0f, 4.5f, 1.0f, 220f)
+      ),
+      iconSymbol = "soup_kitchen"
+    ),
+
+    // ==========================================
+    // ------ SWEETS & TEA (MISC BANGLADESHI) ----
+    // ==========================================
+    FoodEntity(
+      id = "cha_with_biscuit",
+      name = "Milk Tea with Two Biscuits (Cha + Biscuit)",
+      bengaliName = "চা ও বিস্কুট",
+      categoryId = "drinks",
+      region = "Bangladesh",
+      baseScore = 5,
+      educationalText = "The national companion — milk tea with two cream biscuits. Comforting but refined-sugar heavy.",
+      scoreExplanation = "• Antioxidants from tea (theaflavins)\n• Cream biscuits add refined sugar and saturated fat\n• Keep to once a day; sweeten lightly",
+      searchAliases = "cha,biscuit,tea and biscuit,chai,cream biscuit,do cha",
+      portionsJson = portions(
+        portion("cha_plus_2", "1 Cup Cha + 2 Biscuits", 1.0f, 200, 26.0f, 4.0f, 9.0f, 0.5f, 14.0f, 100f)
+      ),
+      iconSymbol = "coffee"
+    ),
+    FoodEntity(
+      id = "rasgulla",
+      name = "Rasgulla (Sweet Cottage Cheese Ball)",
+      bengaliName = "রসগোল্লা",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 3,
+      educationalText = "Soft spongy cottage-cheese balls soaked in light sugar syrup. Beloved festival sweet but very high in sugar.",
+      scoreExplanation = "• Chenna provides some protein and calcium\n• Sugar syrup dominates — spiking glucose fast\n• A small piece, not a meal",
+      searchAliases = "rasgulla,rosogolla,chenna,sweet,mithai",
+      portionsJson = portions(
+        portion("regular", "2 Pieces (100g)", 1.0f, 180, 36.0f, 4.0f, 3.0f, 0.0f, 30.0f, 60f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "sandesh",
+      name = "Sandesh (Chenna Sweet)",
+      bengaliName = "সন্দেশ",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Bengali chenna sweet flavored with cardamom or pistachio. Lower sugar than syrupy sweets but still a treat.",
+      scoreExplanation = "• Good protein and calcium from chenna\n• Added sugar — portion control matters\n• Pair with green tea or post-meal walk",
+      searchAliases = "sandesh,chenna sweet,sondesh,mithai",
+      portionsJson = portions(
+        portion("regular", "1 Piece (50g)", 1.0f, 140, 18.0f, 5.0f, 6.0f, 0.0f, 14.0f, 35f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "mishti_doi",
+      name = "Sweet Yogurt (Mishti Doi)",
+      bengaliName = "মিষ্টি দই",
+      categoryId = "snacks",
+      region = "Bangladesh",
+      baseScore = 6,
+      educationalText = "Traditional caramelized-milk yogurt set in earthen pots. Probiotic + calcium with added jaggery or sugar.",
+      scoreExplanation = "• Probiotics for gut health\n• Calcium and protein\n• Jaggery adds minerals but also sugar — keep portions small",
+      searchAliases = "mishti doi,sweet yogurt,doi,dahi,bengali sweet",
+      portionsJson = portions(
+        portion("regular", "1 Small Pot (100g)", 1.0f, 170, 22.0f, 5.0f, 6.0f, 0.0f, 22.0f, 50f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+
+    // ==========================================
+    // ------------- JUNK FOOD -------------------
+    // ==========================================
+    FoodEntity(
+      id = "potato_chips",
+      name = "Potato Chips (Bag)",
+      bengaliName = "আলু চিপস",
+      categoryId = "snacks",
+      region = "Global",
+      baseScore = 2,
+      educationalText = "Deep-fried or baked potato slices heavily salted. Calorie-dense with refined carbs and sodium.",
+      scoreExplanation = "• High in refined carbs and sodium\n• Minimal protein or micronutrients\n• High-temperature frying creates acrylamide",
+      searchAliases = "chips,potato chips,crisps,bag,lay's,pringles,snack",
+      portionsJson = portions(
+        portion("regular", "1 Small Bag (50g)", 1.0f, 270, 28.0f, 3.0f, 17.0f, 1.5f, 0.5f, 330f),
+        portion("large", "1 Large Bag (150g)", 2.5f, 810, 84.0f, 9.0f, 51.0f, 4.5f, 1.5f, 990f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "instant_noodles",
+      name = "Instant Noodles (Masala Pack)",
+      bengaliName = "ইনস্ট্যান্ট নুডলস",
+      categoryId = "meals",
+      region = "Global",
+      baseScore = 3,
+      educationalText = "Quick-cook refined-wheat noodles with a seasoning sachet high in sodium and MSG. Cheap calories, low nutrition.",
+      scoreExplanation = "• Refined flour = high glycemic load\n• Seasoning packet ~1500mg sodium per pack\n• Almost no fiber; some processed protein",
+      searchAliases = "maggi,noodles,instant noodles,masala,ramen",
+      portionsJson = portions(
+        portion("regular", "1 Pack (70g)", 1.0f, 320, 45.0f, 8.0f, 12.0f, 2.0f, 2.0f, 1100f)
+      ),
+      iconSymbol = "soup_kitchen"
+    ),
+    FoodEntity(
+      id = "fried_chicken_piece",
+      name = "Fried Chicken (Fast-Food Piece)",
+      bengaliName = "ভাজা চিকেন",
+      categoryId = "meals",
+      region = "Global",
+      baseScore = 4,
+      educationalText = "Flour-breaded, deep-fried chicken pieces. Tasty and protein-rich but heavy in oils and sodium.",
+      scoreExplanation = "• Good protein from chicken\n• Breading + deep frying = high fat and refined carbs\n• Sodium typically 500–700mg per piece",
+      searchAliases = "fried chicken,kfc,chicken piece,crispy chicken,bucket",
+      portionsJson = portions(
+        portion("regular", "1 Piece (120g)", 1.0f, 290, 12.0f, 20.0f, 18.0f, 0.5f, 0.5f, 540f),
+        portion("large", "2 Pieces (240g)", 1.8f, 580, 24.0f, 40.0f, 36.0f, 1.0f, 1.0f, 1080f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "burger_fast_food",
+      name = "Fast Food Cheeseburger",
+      bengaliName = "চিজবার্গার",
+      categoryId = "meals",
+      region = "Global",
+      baseScore = 3,
+      educationalText = "Refined-bun burger with processed cheese, sauces, and a thin patty. Calorie dense, low in micronutrients.",
+      scoreExplanation = "• Refined bun spikes blood sugar\n• Processed cheese adds saturated fat and sodium\n• Sauce = hidden sugar",
+      searchAliases = "burger,cheeseburger,fast food,burger king,mcdonalds",
+      portionsJson = portions(
+        portion("regular", "1 Burger (220g)", 1.0f, 540, 45.0f, 25.0f, 28.0f, 2.0f, 9.0f, 980f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "pizza_slice",
+      name = "Pizza Slice (Cheese)",
+      bengaliName = "পিৎজা স্লাইস",
+      categoryId = "meals",
+      region = "Global",
+      baseScore = 4,
+      educationalText = "Refined-flour crust topped with mozzarella, tomato sauce, and oils. Family-favorite but a calorie bomb.",
+      scoreExplanation = "• Cheese gives protein and calcium\n• Refined flour base with added oils\n• Sodium often exceeds 600mg per slice",
+      searchAliases = "pizza,pizza slice,cheese pizza,fast food",
+      portionsJson = portions(
+        portion("regular", "1 Large Slice (140g)", 1.0f, 380, 38.0f, 16.0f, 17.0f, 2.5f, 4.0f, 720f),
+        portion("whole", "Whole Small Pizza (400g)", 2.6f, 1080, 108.0f, 46.0f, 48.0f, 7.0f, 11.0f, 2050f)
+      ),
+      iconSymbol = "restaurant"
+    ),
+    FoodEntity(
+      id = "cream_biscuit",
+      name = "Cream Biscuits (Pack)",
+      bengaliName = "ক্রিম বিস্কুট",
+      categoryId = "snacks",
+      region = "Global",
+      baseScore = 2,
+      educationalText = "Sandwich biscuits with sweetened cream filling. Mostly refined flour, sugar, and hydrogenated fat.",
+      scoreExplanation = "• Refined flour + sugar — quick energy crash\n• Hydrogenated fats may contain trans fats\n• Often eaten mindlessly in large quantities",
+      searchAliases = "biscuit,cream biscuit,oreo,parleg,marie,cookies",
+      portionsJson = portions(
+        portion("small", "3 Biscuits (30g)", 1.0f, 150, 22.0f, 1.5f, 6.5f, 0.5f, 11.0f, 90f),
+        portion("regular", "6 Biscuits (60g)", 2.0f, 300, 44.0f, 3.0f, 13.0f, 1.0f, 22.0f, 180f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "french_fries",
+      name = "French Fries (Fast Food)",
+      bengaliName = "ফ্রেঞ্চ ফ্রাই",
+      categoryId = "snacks",
+      region = "Global",
+      baseScore = 3,
+      educationalText = "Deep-fried potato sticks, salted. Universally loved; high in oil, sodium, and acrylamide from frying.",
+      scoreExplanation = "• Some potassium from potato\n• High heat frying creates acrylamide\n• Sodium 200–400mg per medium serving",
+      searchAliases = "fries,french fries,chips,mc fries,fast food,potato fries",
+      portionsJson = portions(
+        portion("small", "Small Box (100g)", 1.0f, 320, 42.0f, 3.5f, 16.0f, 4.0f, 0.5f, 240f),
+        portion("large", "Large Box (200g)", 1.8f, 640, 84.0f, 7.0f, 32.0f, 8.0f, 1.0f, 480f)
+      ),
+      iconSymbol = "lunch_dining"
+    ),
+    FoodEntity(
+      id = "sweetened_yogurt_drink",
+      name = "Sweetened Yogurt Drink (Sweet Lassi / Borhani style)",
+      bengaliName = "মিষ্টি লাচ্ছি / বোরহানি",
+      categoryId = "drinks",
+      region = "Bangladesh",
+      baseScore = 4,
+      educationalText = "Sweetened yogurt-based beverage. Tasty and probiotic but loaded with added sugar in most bottled versions.",
+      scoreExplanation = "• Probiotics support gut health\n• Often 20–30g added sugar per glass\n• Choose plain yogurt or home-made borhani instead",
+      searchAliases = "lassi,misti lassi,sweet lassi,borhani,yogurt drink,dahi drink",
+      portionsJson = portions(
+        portion("glass", "1 Glass (250ml)", 1.0f, 230, 36.0f, 6.0f, 6.0f, 0.5f, 32.0f, 110f)
+      ),
+      iconSymbol = "water_drop"
+    ),
+    FoodEntity(
+      id = "cold_coffee_shake",
+      name = "Sweetened Cold Coffee Shake",
+      bengaliName = "কোল্ড কফি",
+      categoryId = "drinks",
+      region = "Global",
+      baseScore = 3,
+      educationalText = "Blended iced coffee with milk, sugar, ice cream, or chocolate syrup. Tasty treat, sugar-bomb.",
+      scoreExplanation = "• Coffee antioxidants are healthy in small doses\n• Ice cream + sugar = 30–40g added sugar per glass\n• Use sugar-free versions occasionally",
+      searchAliases = "cold coffee,iced coffee,coffee shake,frappe,mocha",
+      portionsJson = portions(
+        portion("regular", "1 Glass (350ml)", 1.0f, 280, 42.0f, 6.0f, 9.0f, 0.5f, 36.0f, 95f)
+      ),
+      iconSymbol = "coffee"
     )
   )
 }

@@ -46,9 +46,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.local.entity.DailyRecordEntity
 import com.example.ui.theme.CleanBackground
 import com.example.ui.theme.CleanBorder
@@ -76,7 +78,8 @@ fun ProgressScreen(
   val records by viewModel.allRecordsFlow.collectAsState(initial = emptyList())
 
   // Generate 7-day trend data
-  val past7Days = remember(records) {
+  val todayLabel = stringResource(R.string.progress_today_label)
+  val past7Days = remember(records, todayLabel) {
     val cal = Calendar.getInstance()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
     val dayLabelFormat = SimpleDateFormat("EEE", Locale.US)
@@ -86,7 +89,7 @@ fun ProgressScreen(
       val dayCal = Calendar.getInstance()
       dayCal.add(Calendar.DAY_OF_YEAR, -i)
       val dateStr = dateFormat.format(dayCal.time)
-      val label = if (i == 0) "Today" else dayLabelFormat.format(dayCal.time)
+      val label = if (i == 0) todayLabel else dayLabelFormat.format(dayCal.time)
       val record = records.find { it.date == dateStr }
       val score = record?.score ?: if (i == 0) 84 else 0
       list.add(DayTrendData(date = dateStr, label = label, score = score))
@@ -107,7 +110,7 @@ fun ProgressScreen(
         ),
         title = {
           Text(
-            text = "Progress & Trends",
+            text = stringResource(R.string.progress_title),
             style = MaterialTheme.typography.titleLarge.copy(
               fontWeight = FontWeight.SemiBold,
               letterSpacing = (-0.5).sp
@@ -119,7 +122,7 @@ fun ProgressScreen(
           IconButton(onClick = { viewModel.openShareDialog() }) {
             Icon(
               imageVector = Icons.Default.Share,
-              contentDescription = "Share",
+              contentDescription = stringResource(R.string.progress_share_content_description),
               tint = CleanOnSurface
             )
           }
@@ -153,20 +156,20 @@ fun ProgressScreen(
           ) {
             Column(modifier = Modifier.padding(18.dp)) {
               Text(
-                text = "7-Day Average",
+                text = stringResource(R.string.progress_seven_day_avg),
                 style = MaterialTheme.typography.labelSmall,
                 color = CleanOnSurfaceVariant
               )
               Spacer(modifier = Modifier.height(4.dp))
               Row(verticalAlignment = Alignment.Bottom) {
                 Text(
-                  text = "$avgScore",
+                  text = stringResource(R.string.progress_score_label_value, avgScore),
                   style = MaterialTheme.typography.displaySmall,
                   fontWeight = FontWeight.Bold,
                   color = CleanPrimary
                 )
                 Text(
-                  text = "/100",
+                  text = stringResource(R.string.progress_out_of_hundred),
                   style = MaterialTheme.typography.labelSmall,
                   color = CleanOnSurfaceVariant,
                   modifier = Modifier.padding(bottom = 4.dp, start = 2.dp)
@@ -174,7 +177,7 @@ fun ProgressScreen(
               }
               Spacer(modifier = Modifier.height(4.dp))
               Text(
-                text = "Balanced & steady",
+                text = stringResource(R.string.progress_seven_day_avg_caption),
                 style = MaterialTheme.typography.bodySmall,
                 color = CleanPrimary,
                 fontWeight = FontWeight.Medium
@@ -192,20 +195,20 @@ fun ProgressScreen(
           ) {
             Column(modifier = Modifier.padding(18.dp)) {
               Text(
-                text = "Active Streak",
+                text = stringResource(R.string.progress_active_streak),
                 style = MaterialTheme.typography.labelSmall,
                 color = CleanOnSurfaceVariant
               )
               Spacer(modifier = Modifier.height(4.dp))
               Row(verticalAlignment = Alignment.Bottom) {
                 Text(
-                  text = "${uiState.streakDays}",
+                  text = stringResource(R.string.progress_score_label_value, uiState.streakDays),
                   style = MaterialTheme.typography.displaySmall,
                   fontWeight = FontWeight.Bold,
                   color = CleanPrimary
                 )
                 Text(
-                  text = " days",
+                  text = stringResource(R.string.progress_active_streak_unit),
                   style = MaterialTheme.typography.titleMedium,
                   color = CleanPrimary,
                   fontWeight = FontWeight.Bold,
@@ -214,7 +217,7 @@ fun ProgressScreen(
               }
               Spacer(modifier = Modifier.height(4.dp))
               Text(
-                text = "Mindful habit strong",
+                text = stringResource(R.string.progress_active_streak_caption),
                 style = MaterialTheme.typography.bodySmall,
                 color = CleanPrimary,
                 fontWeight = FontWeight.Medium
@@ -241,13 +244,13 @@ fun ProgressScreen(
             ) {
               Column {
                 Text(
-                  text = "Weekly Nutrition Trend",
+                  text = stringResource(R.string.progress_weekly_chart_title),
                   style = MaterialTheme.typography.titleMedium,
                   fontWeight = FontWeight.Bold,
                   color = CleanOnSurface
                 )
                 Text(
-                  text = "Scores across the last 7 days",
+                  text = stringResource(R.string.progress_weekly_chart_subtitle),
                   style = MaterialTheme.typography.bodySmall,
                   color = CleanOnSurfaceVariant
                 )
@@ -298,7 +301,7 @@ fun ProgressScreen(
               )
               Spacer(modifier = Modifier.width(8.dp))
               Text(
-                text = "Mindful Insights",
+                text = stringResource(R.string.progress_mindful_insights),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = CleanOnSurface
@@ -308,7 +311,7 @@ fun ProgressScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-              text = "• Consistent breakfast habits fuel your morning focus without energy spikes.\n• Adding leafy greens and pure hydration gives your daily score an immediate boost.\n• You have logged 10+ wholesome Bangladesh foods this week!",
+              text = stringResource(R.string.progress_mindful_insights_body),
               style = MaterialTheme.typography.bodySmall,
               color = CleanOnSurfaceVariant,
               lineHeight = 20.sp
@@ -347,7 +350,7 @@ private fun ChartBar(day: DayTrendData) {
   ) {
     if (day.score > 0) {
       Text(
-        text = "${day.score}",
+        text = stringResource(R.string.progress_score_label_value, day.score),
         style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.Bold),
         color = barColor
       )
@@ -377,7 +380,7 @@ private fun ChartBar(day: DayTrendData) {
       text = day.label,
       style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
       color = CleanOnSurfaceVariant,
-      fontWeight = if (day.label == "Today") FontWeight.Bold else FontWeight.Normal
+      fontWeight = if (day.label == stringResource(R.string.progress_today_label)) FontWeight.Bold else FontWeight.Normal
     )
   }
 }

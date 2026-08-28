@@ -15,7 +15,14 @@ object NutritionScoringEngine {
   )
 
   /**
-   * Calculates 0-100 Nutrition Score and coaching feedback.
+   * Calculates a 0–100 Nutrition Score and coaching feedback for a day.
+   *
+   * IMPORTANT: This score is a **heuristic wellness indicator**, not a medical
+   * measurement. The labels ("Nurturing", "Balanced", "Mindful", "Good Start",
+   * "No Logs Yet") and the coaching guidance messages are deliberately framed
+   * as supportive and gentle, not as pass/fail medical judgments. See the
+   * in-app medical-advice disclaimer (`LegalLinks.MEDICAL_ADVICE_DISCLAIMER`)
+   * and `TERMS.md` for the full disclaimer.
    */
   fun calculateDailyScore(
     entries: List<FoodEntryEntity>,

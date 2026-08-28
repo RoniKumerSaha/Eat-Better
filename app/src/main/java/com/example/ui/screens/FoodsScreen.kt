@@ -47,9 +47,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.model.FoodItem
 import com.example.ui.components.FoodItemCard
 import com.example.ui.theme.CleanBackground
@@ -61,6 +63,9 @@ import com.example.ui.theme.CleanPrimary
 import com.example.ui.theme.CleanSubtleText
 import com.example.ui.theme.CleanSurface
 import com.example.ui.theme.CleanSurfaceLow
+import com.example.ui.theme.PremiumShapes
+import com.example.ui.theme.PremiumShadows
+import com.example.ui.theme.premiumShadow
 import com.example.ui.viewmodel.EatBetterViewModel
 import com.example.ui.viewmodel.UiState
 
@@ -71,7 +76,15 @@ fun FoodsScreen(
   uiState: UiState,
   onFoodSelected: (FoodItem) -> Unit
 ) {
-  val categories = listOf("All", "Bangladesh", "Fruits", "Vegetables", "Meals", "Snacks", "Drinks")
+val categories = listOf(
+    stringResource(R.string.category_all),
+    stringResource(R.string.category_bangladesh),
+    stringResource(R.string.category_fruits),
+    stringResource(R.string.category_vegetables),
+    stringResource(R.string.category_meals),
+    stringResource(R.string.category_snacks),
+    stringResource(R.string.category_drinks)
+  )
 
   Scaffold(
     topBar = {
@@ -82,7 +95,7 @@ fun FoodsScreen(
         title = {
           Column {
             Text(
-              text = "Food Database",
+              text = stringResource(R.string.foods_title),
               style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = (-0.5).sp
@@ -90,7 +103,7 @@ fun FoodsScreen(
               color = CleanOnSurface
             )
             Text(
-              text = "${uiState.filteredFoods.size} wholesome foods available",
+              text = stringResource(R.string.foods_count, uiState.filteredFoods.size),
               style = MaterialTheme.typography.bodySmall,
               color = CleanOnSurfaceVariant
             )
@@ -113,13 +126,13 @@ fun FoodsScreen(
             ) {
               Icon(
                 imageVector = Icons.Default.Favorite,
-                contentDescription = "Saved Only",
+                contentDescription = stringResource(R.string.foods_saved_only),
                 tint = if (uiState.savedOnly) CleanPrimary else CleanOnSurfaceVariant,
                 modifier = Modifier.size(16.dp)
               )
               Spacer(modifier = Modifier.width(4.dp))
               Text(
-                text = "Saved",
+                text = stringResource(R.string.foods_saved),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = if (uiState.savedOnly) FontWeight.Bold else FontWeight.Medium,
                 color = if (uiState.savedOnly) CleanPrimary else CleanOnSurfaceVariant
@@ -138,37 +151,60 @@ fun FoodsScreen(
         .padding(paddingValues)
     ) {
 
-      // Search Field
-      OutlinedTextField(
-        value = uiState.searchQuery,
-        onValueChange = { viewModel.setSearchQuery(it) },
-        placeholder = { Text("Search foods (e.g. apple, dal, bhat, mach)...", color = CleanSubtleText) },
-        leadingIcon = {
-          Icon(Icons.Default.Search, contentDescription = "Search", tint = CleanPrimary)
-        },
-        trailingIcon = {
-          if (uiState.searchQuery.isNotEmpty()) {
-            IconButton(onClick = { viewModel.setSearchQuery("") }) {
-              Icon(Icons.Default.Clear, contentDescription = "Clear search", tint = CleanOnSurfaceVariant)
-            }
-          }
-        },
-        singleLine = true,
-        shape = RoundedCornerShape(16.dp),
-        colors = OutlinedTextFieldDefaults.colors(
-          focusedTextColor = CleanOnSurface,
-          unfocusedTextColor = CleanOnSurface,
-          focusedContainerColor = CleanSurface,
-          unfocusedContainerColor = CleanSurface,
-          focusedBorderColor = CleanPrimary,
-          unfocusedBorderColor = CleanBorder,
-          cursorColor = CleanPrimary
-        ),
+      // Search Field (elevated)
+      Surface(
         modifier = Modifier
           .fillMaxWidth()
-          .padding(horizontal = 16.dp, vertical = 6.dp)
-          .testTag("food_search_field")
-      )
+          .padding(horizontal = 16.dp, vertical = 8.dp)
+          .premiumShadow(PremiumShadows.CardSubtle, RoundedCornerShape(16.dp))
+          .testTag("food_search_field"),
+        shape = RoundedCornerShape(16.dp),
+        color = CleanSurface
+      ) {
+        OutlinedTextField(
+          value = uiState.searchQuery,
+          onValueChange = { viewModel.setSearchQuery(it) },
+          placeholder = {
+            Text(
+              stringResource(R.string.foods_search_placeholder),
+              color = CleanSubtleText,
+              style = MaterialTheme.typography.bodyMedium
+            )
+          },
+          leadingIcon = {
+            Icon(
+              Icons.Default.Search,
+              contentDescription = stringResource(R.string.foods_search),
+              tint = CleanPrimary,
+              modifier = Modifier.size(20.dp)
+            )
+          },
+          trailingIcon = {
+            if (uiState.searchQuery.isNotEmpty()) {
+              IconButton(onClick = { viewModel.setSearchQuery("") }) {
+                Icon(
+                  Icons.Default.Clear,
+                  contentDescription = stringResource(R.string.foods_clear_search),
+                  tint = CleanOnSurfaceVariant,
+                  modifier = Modifier.size(18.dp)
+                )
+              }
+            }
+          },
+          singleLine = true,
+          shape = RoundedCornerShape(16.dp),
+          colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = CleanOnSurface,
+            unfocusedTextColor = CleanOnSurface,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent,
+            cursorColor = CleanPrimary
+          ),
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
 
       // Category Chips Row
       LazyRow(
@@ -215,14 +251,14 @@ fun FoodsScreen(
         ) {
           Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-              text = "No foods found",
+              text = stringResource(R.string.foods_empty_title),
               style = MaterialTheme.typography.titleMedium,
               fontWeight = FontWeight.Bold,
               color = CleanOnSurface
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-              text = "Try searching for a different food or reset your category filter.",
+              text = stringResource(R.string.foods_empty_body),
               style = MaterialTheme.typography.bodyMedium,
               color = CleanOnSurfaceVariant
             )
@@ -238,7 +274,7 @@ fun FoodsScreen(
                 contentColor = Color.White
               )
             ) {
-              Text("Reset Filters", fontWeight = FontWeight.Bold, color = Color.White)
+              Text(stringResource(R.string.action_reset_filters), fontWeight = FontWeight.Bold, color = Color.White)
             }
           }
         }

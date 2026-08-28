@@ -2,5 +2,5 @@
   "name": "Eat Better",
   "description": "A calm, offline-first Android nutrition companion helping users make healthier food choices without calorie obsession, shame, or medical framing.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

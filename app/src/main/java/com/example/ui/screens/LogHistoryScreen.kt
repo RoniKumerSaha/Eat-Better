@@ -46,9 +46,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.local.entity.FoodEntryEntity
 import com.example.ui.theme.CleanBackground
 import com.example.ui.theme.CleanBorder
@@ -77,6 +79,12 @@ fun LogHistoryScreen(
   val backfillDates = viewModel.getBackfillDates()
 
   val mealTypes = listOf("Breakfast", "Lunch", "Dinner", "Snack")
+  val mealLabels = mapOf(
+    "Breakfast" to stringResource(R.string.meal_breakfast),
+    "Lunch" to stringResource(R.string.meal_lunch),
+    "Dinner" to stringResource(R.string.meal_dinner),
+    "Snack" to stringResource(R.string.meal_snack)
+  )
 
   Scaffold(
     topBar = {
@@ -86,7 +94,7 @@ fun LogHistoryScreen(
         ),
         title = {
           Text(
-            text = "Food Log",
+            text = stringResource(R.string.log_history_food_log_title),
             style = MaterialTheme.typography.titleLarge.copy(
               fontWeight = FontWeight.SemiBold,
               letterSpacing = (-0.5).sp
@@ -98,7 +106,7 @@ fun LogHistoryScreen(
           IconButton(onClick = onNavigateBack) {
             Icon(
               imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-              contentDescription = "Back",
+              contentDescription = stringResource(R.string.action_back),
               tint = CleanOnSurface
             )
           }
@@ -153,6 +161,7 @@ fun LogHistoryScreen(
         val mealEntries = entries.filter { it.mealType == mealType }
         MealGroupSection(
           mealType = mealType,
+          mealLabels = mealLabels,
           entries = mealEntries,
           onAddClick = { onAddFoodForMeal(mealType) },
           onDeleteEntry = { viewModel.deleteEntry(it) }
@@ -165,6 +174,7 @@ fun LogHistoryScreen(
 @Composable
 private fun MealGroupSection(
   mealType: String,
+  mealLabels: Map<String, String>,
   entries: List<FoodEntryEntity>,
   onAddClick: () -> Unit,
   onDeleteEntry: (FoodEntryEntity) -> Unit
@@ -183,7 +193,7 @@ private fun MealGroupSection(
         verticalAlignment = Alignment.CenterVertically
       ) {
         Text(
-          text = mealType,
+          text = mealLabels[mealType] ?: mealType,
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.Bold,
           color = CleanOnSurface
@@ -198,7 +208,7 @@ private fun MealGroupSection(
         ) {
           Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "Add food to $mealType",
+            contentDescription = stringResource(R.string.log_history_add_food, mealLabels[mealType] ?: mealType),
             tint = CleanPrimary,
             modifier = Modifier.size(20.dp)
           )
@@ -209,7 +219,7 @@ private fun MealGroupSection(
 
       if (entries.isEmpty()) {
         Text(
-          text = "Nothing logged yet.",
+          text = stringResource(R.string.log_history_empty),
           style = MaterialTheme.typography.bodySmall,
           color = CleanOnSurfaceVariant,
           modifier = Modifier.padding(vertical = 8.dp)
@@ -242,7 +252,7 @@ private fun MealGroupSection(
                   contentAlignment = Alignment.Center
                 ) {
                   Text(
-                    text = "${entry.baseScore}",
+                    text = stringResource(R.string.log_history_score_value, entry.baseScore),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = scoreColor
                   )
@@ -258,7 +268,7 @@ private fun MealGroupSection(
                     color = CleanOnSurface
                   )
                   Text(
-                    text = "${entry.portionName} • ${entry.calories} kcal",
+                    text = stringResource(R.string.log_history_entry_subtitle, entry.portionName, entry.calories),
                     style = MaterialTheme.typography.bodySmall,
                     color = CleanOnSurfaceVariant
                   )
@@ -270,7 +280,7 @@ private fun MealGroupSection(
                 ) {
                   Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete entry",
+                    contentDescription = stringResource(R.string.log_history_delete_content_description),
                     tint = CleanOnSurfaceVariant,
                     modifier = Modifier.size(18.dp)
                   )
